@@ -12,13 +12,17 @@ namespace _Project.Scripts.Commands
         public void Init(Bootstrap main)
         {
             _m = main;
-            
-            DebugLogConsole.AddCommand<string, string>( "connect", "Connected", ES_Connect );
-            DebugLogConsole.AddCommand<Vector3>( "cube", "Created cube ", _m.SpawnCube );
+
+            DebugLogConsole.AddCommand("state", "Show current states", ShowStates);
+            DebugLogConsole.AddCommand<Vector3>( "cube", "Create cube ", _m.SpawnCube );
         }
 
-        void ES_Connect(string pin1, string pin2)
+        void ShowStates()
         {
+            Debug.Log("Current states:" +
+                      "\n Game: " + Bootstrap.Instance.sm_Game.CurrentState.GetType().Name +  
+                      " | Player: " + Bootstrap.Instance.sm_Player.CurrentState.GetType().Name
+                      );
             
         }
 

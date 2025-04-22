@@ -1,6 +1,6 @@
 ﻿namespace _Project.Scripts.GameRoot.States.GameStates
 {
-    public class BuildingState : IState
+    public class BuildingGState : IState
     {
         public void Enter()
         {

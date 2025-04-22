@@ -1,6 +1,6 @@
 ﻿namespace _Project.Scripts.GameRoot.StateMacines
 {
-    public class PlayerStateManager : StateMachine
+    public class PlayerStateMachine : StateMachine
     {
         
     }

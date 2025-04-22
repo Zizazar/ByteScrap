@@ -3,16 +3,19 @@ using UnityEngine.SceneManagement;
 
 namespace _Project.Scripts.GameRoot.States.GameStates
 {
-    public class MenuState : IState
+    public class MenuGState : IState
     {
 
         public void Enter()
         {
             SceneManager.LoadScene("Menu");
+            Bootstrap.Instance.ui.menu.Open();
         }
 
         public void Exit()
         {
+            Bootstrap.Instance.ui.menu.Close();
+
         }
 
         public void Update()

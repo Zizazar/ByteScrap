@@ -1,6 +1,6 @@
 ﻿namespace _Project.Scripts.GameRoot.States.PlayerStates
 {
-    public class MenuViewState : IState
+    public class MenuViewPState : IState
     {
         public void Enter()
         {

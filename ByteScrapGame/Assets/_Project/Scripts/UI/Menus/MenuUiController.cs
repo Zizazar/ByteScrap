@@ -1,6 +1,7 @@
 ﻿
 using System;
 using _Project.Scripts.GameRoot;
+using _Project.Scripts.GameRoot.States.GameStates;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +31,7 @@ namespace _Project.Scripts.UI
         private void SelectLevel()
         {
             // TODO: Открытие выбора уровня
+            Bootstrap.Instance.sm_Game.ChangeState(new LevelSelectGState());
             //Bootstrap.Instance.ui.open
         }
         

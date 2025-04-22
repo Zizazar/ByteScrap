@@ -1,46 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using _Project.Scripts.GameRoot;
+using _Project.Scripts.GameRoot.StateMacines;
 using UnityEngine;
 
 namespace _Project.Scripts.Player
 {
-    public class PlayerController : MonoBehaviour, IPlayer, IInitializable
+    public class PlayerController : MonoBehaviour, IPlayer
     {
-        private Rigidbody _rigidbody;
-        private Bootstrap _main;
-    
-        private IPlayerBehavior _currentBehavior;
-        private Dictionary<Type, IPlayerBehavior> _behaviors;
-
-        public void Init(Bootstrap main)
-        {
-            _main = main;
-            _rigidbody = main.GetComponent<Rigidbody>();
+        PlayerStateMachine sm_Player;
         
-            _behaviors = new Dictionary<Type, IPlayerBehavior>
-            {
-                { typeof(MovementBehavior), new MovementBehavior(
-                    this, 
-                    _main.input, _main.settings) }
-            };   
-            
-            SetBehavior<MovementBehavior>();
-        }
-        
-        public void SetBehavior<T>() where T : IPlayerBehavior
+        public void Init(PlayerStateMachine _smPlayer)
         {
-            _currentBehavior?.Exit();
-            _currentBehavior = _behaviors[typeof(T)];
-            _currentBehavior.Enter();
+            sm_Player = _smPlayer;
         }
 
-        public void Look(Vector3 direction)
-        {
-        
-        }
-
-        public void Move(Vector3 direction)
+        void MoveTo(Vector3 pos)
         {
             
         }
