@@ -4,7 +4,7 @@
     {
         public void Enter()
         {
-            
+            SceneLoader.LoadLevel("SampleScene");
         }
 
         public void Exit()

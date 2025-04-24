@@ -31,7 +31,7 @@ namespace _Project.Scripts.UI
         private void SelectLevel()
         {
             // TODO: Открытие выбора уровня
-            Bootstrap.Instance.sm_Game.ChangeState(new LevelSelectGState());
+            Bootstrap.Instance.sm_Game.ChangeState(new BuildingGState()); // LevelSelectGState
             //Bootstrap.Instance.ui.open
         }
         

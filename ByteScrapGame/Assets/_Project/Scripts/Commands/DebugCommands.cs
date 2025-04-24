@@ -15,6 +15,7 @@ namespace _Project.Scripts.Commands
 
             DebugLogConsole.AddCommand("state", "Show current states", ShowStates);
             DebugLogConsole.AddCommand<Vector3>( "cube", "Create cube ", _m.SpawnCube );
+            DebugLogConsole.AddCommand<string>("loadScene", "Switch current scene", SceneLoader.LoadLevel);
         }
 
         void ShowStates()
