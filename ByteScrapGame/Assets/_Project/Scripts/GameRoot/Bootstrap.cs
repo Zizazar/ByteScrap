@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using _Project.Scripts.Commands;
 using _Project.Scripts.ElectricitySystem;
 using _Project.Scripts.GameRoot.StateMacines;
@@ -7,6 +8,7 @@ using _Project.Scripts.GameRoot.States.PlayerStates;
 using _Project.Scripts.Player;
 using _Project.Scripts.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.GameRoot
@@ -105,6 +107,25 @@ namespace _Project.Scripts.GameRoot
             spawnedObject.GetComponent<Renderer>().material.color = Color.HSVToRGB(Random.value, 1f, 1f);
             spawnedObject.AddComponent<BoxCollider>();
             spawnedObject.AddComponent<Rigidbody>();
+        }
+        
+        // Загрузка уровня
+        public void LoadScene(string sceneName)
+        {
+            StartCoroutine(CO_LoadScene(sceneName));
+        }
+        
+        private IEnumerator CO_LoadScene(string sceneName)
+        {
+            ui.loadingScreen.FadeIn();
+        
+            // Начало асинхронной загрузки уровня
+            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+            if (asyncOperation == null) yield break;
+            
+            yield return new WaitUntil(() => asyncOperation.isDone);
+
+            ui.loadingScreen.FadeOut();
         }
     }
 }

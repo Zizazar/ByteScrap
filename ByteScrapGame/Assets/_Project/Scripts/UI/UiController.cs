@@ -1,4 +1,5 @@
-﻿using Unity.VisualScripting;
+﻿using _Project.Scripts.UI.Screens;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Project.Scripts.UI
@@ -7,11 +8,13 @@ namespace _Project.Scripts.UI
     {
         public MenuUiController menu;
         public LevelSelectUiController levelSelect;
+        public LoadingScreenController loadingScreen;
 
         public void Init()
         {
             menu.Init();
             levelSelect.Init();
+            loadingScreen.Init();
         }
     }
 }

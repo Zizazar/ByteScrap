@@ -4,7 +4,7 @@
     {
         public void Enter()
         {
-            SceneLoader.LoadLevel("SampleScene");
+            Bootstrap.Instance.LoadScene("SampleScene");
         }
 
         public void Exit()
