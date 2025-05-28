@@ -5,31 +5,23 @@ using UnityEngine;
 
 namespace _Project.Scripts.Commands
 {
-    public class DebugCommands : IInitializable
+    public class DebugCommands
     {
-        private Bootstrap _m;
-
-        public void Init(Bootstrap main)
+        public void Init()
         {
-            _m = main;
-
             DebugLogConsole.AddCommand("state", "Show current states", ShowStates);
-            DebugLogConsole.AddCommand<Vector3>( "cube", "Create cube ", _m.SpawnCube );
-            DebugLogConsole.AddCommand<string>("loadScene", "Switch current scene", _m.LoadScene);
-            DebugLogConsole.AddCommand("test", "Switch current scene", () => Bootstrap.Instance.ui.levelSelect.FadeIn());
+            DebugLogConsole.AddCommand<Vector3>( "cube", "Create cube ", Bootstrap.Instance.SpawnCube );
+            DebugLogConsole.AddCommand<string>("loadScene", "Switch current scene", Bootstrap.Instance.LoadScene);
         }
 
         void ShowStates()
         {
             Debug.Log("Current states:" +
                       "\n Game: " + Bootstrap.Instance.sm_Game.CurrentState.GetType().Name +  
-                      " | Player: " + Bootstrap.Instance.sm_Player.CurrentState.GetType().Name
+                      " | Player: " + Bootstrap.Instance.playerController?.statemachine.CurrentState.GetType().Name
                       );
             
         }
-
-        
-        
         
     }
 }

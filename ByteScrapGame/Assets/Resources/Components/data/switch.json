@@ -1,0 +1,10 @@
+{
+  "name": "Switch",
+  "component_id": 0,
+  "type": "switch",
+  "prefab": "Components/Prefabs/SwitchComponent",
+  "pins": [{
+    "type": "output",
+    "value": 0.0
+    }]
+}
