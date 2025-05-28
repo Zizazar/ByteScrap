@@ -69,27 +69,33 @@ namespace _Project.Scripts.GameRoot
             ui = GetComponentInChildren<UiController>(); // UI должен быть в BOOTSTRAP
             ui.Init();
             
-            sm_Game = new GameStateMachine();
+            sm_Game = GetComponent<GameStateMachine>();
             sm_Game.ChangeState(new MenuGState());
             
-            sm_Player = new PlayerStateMachine();
-            sm_Player.ChangeState(new MenuViewPState());
             
             
             input = new GameInput();
             input.Enable();
+
+            debugCmd = new DebugCommands();
+            debugCmd.Init();
             
-            playerController = SpawnPlayer();
-            playerController.Init(sm_Player);
+            
+
+        }
+
+        // ReSharper disable Unity.PerformanceAnalysis
+        public void InitLevel() 
+        {
+            
+            playerController = FindAnyObjectByType<PlayerController>();
+            playerController.Init();
             
             circuitManager = new CircuitManager();
             circuitManager.Init();
-
-            debugCmd = new DebugCommands();
-            debugCmd.Init(this);
             
             
-
+            
         }
 
 
@@ -125,6 +131,8 @@ namespace _Project.Scripts.GameRoot
             
             yield return new WaitUntil(() => asyncOperation.isDone);
 
+            InitLevel();
+            
             ui.loadingScreen.FadeOut();
         }
     }

@@ -10,6 +10,7 @@ namespace _Project.Scripts.ElectricitySystem
         public event Action<Pin> OnValueChanged;
     
         public CircuitComponent Owner { get; set; }
+        public string Name;
         public PinType Type;
         public float Voltage;
     

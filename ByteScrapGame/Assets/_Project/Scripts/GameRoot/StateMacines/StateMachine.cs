@@ -1,4 +1,6 @@
-﻿public class StateMachine : IStateMachine
+﻿using UnityEngine;
+
+public class StateMachine : MonoBehaviour, IStateMachine
 {
     private IState _currentState;
     
