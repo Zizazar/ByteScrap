@@ -14,12 +14,16 @@ namespace _Project.Scripts.Player
         public Transform[] waypoints;
         
         private GameInput _input;
+        private PlayerMovingController _playerMovingController;
         private Tweener _moveTween;
         private int _currentIndex;
 
         public void Init()
         {
             _input = Bootstrap.Instance.input;
+            
+            _playerMovingController = GetComponent<PlayerMovingController>();
+            _playerMovingController.Init(_input);
             
             statemachine = GetComponent<PlayerStateMachine>();
             statemachine.ChangeState(new BuildingPState());
@@ -49,7 +53,7 @@ namespace _Project.Scripts.Player
             }
         }
 
-        private void Update()
+        /*private void Update()
         {
             // !!!Временно!!!
             if (Input.GetKeyDown(KeyCode.D))
@@ -64,6 +68,7 @@ namespace _Project.Scripts.Player
                 MoveToWaypoint(_currentIndex);
             }
         }
+        */
         
         private void MoveToWaypoint(int index)
         {
