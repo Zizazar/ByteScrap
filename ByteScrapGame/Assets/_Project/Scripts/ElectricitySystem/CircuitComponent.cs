@@ -1,23 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace _Project.Scripts.ElectricitySystem
 {
     public abstract class CircuitComponent : MonoBehaviour
     {
-        protected Dictionary<string, Pin> pins = new Dictionary<string, Pin>();
+        public string componentId;
+        public string componentType;
+        
+        public List<Pin> pins = new();
 
-        public virtual void Init()
+        private void Start()
         {
-            foreach (var pin in GetComponentsInChildren<Pin>())
-            {
-                pins.Add(pin.Name, pin);
-                pin.OnValueChanged += HandlePinValueChanged;
-            }
+            if (string.IsNullOrEmpty(componentId))
+                componentId = Guid.NewGuid().ToString();
+            Init();
         }
 
-        protected abstract void HandlePinValueChanged(Pin updatedPin);
+        public abstract void Init();
+        
+        public abstract void UpdateLogic();
 
-        protected Pin GetPin(string pinName) => pins.GetValueOrDefault(pinName);
+        protected Pin GetPin(string pinName) => pins.FirstOrDefault(p => p.Name == pinName);
+        protected Pin GetPin(bool isInput) => pins.FirstOrDefault(p => p.IsInput == isInput);
     }
 }

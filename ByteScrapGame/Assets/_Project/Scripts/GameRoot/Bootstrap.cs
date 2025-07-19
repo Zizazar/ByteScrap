@@ -91,8 +91,8 @@ namespace _Project.Scripts.GameRoot
             playerController = FindAnyObjectByType<PlayerController>();
             playerController.Init();
             
-            circuitManager = new CircuitManager();
-            circuitManager.Init();
+            //circuitManager = new CircuitManager();
+            //circuitManager.Init();
             
             
             

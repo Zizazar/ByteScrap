@@ -7,41 +7,29 @@ namespace _Project.Scripts.ElectricitySystem
 {
     public class Pin : MonoBehaviour
     {
-        public event Action<Pin> OnValueChanged;
-    
-        public CircuitComponent Owner { get; set; }
         public string Name;
-        public PinType Type;
+        public string id;
+        public CircuitComponent component;
+        public bool IsInput;
         public float Voltage;
     
-        private List<Pin> _connectedPins = new List<Pin>();
+        public List<Pin> connectedPins = new List<Pin>();
 
         public void Connect(Pin otherPin)
         {
-            if (!_connectedPins.Contains(otherPin))
-            {
-                _connectedPins.Add(otherPin);
-                otherPin.Connect(this);
-            }
+            if (connectedPins.Contains(otherPin)) return;
+            
+            connectedPins.Add(otherPin);
+            otherPin.Connect(this);
         }
-
-        public void UpdateVoltage(float newVoltage)
+        public void SetVoltage(float newVoltage)
         {
-            if (Mathf.Approximately(Voltage, newVoltage)) return;
-        
             Voltage = newVoltage;
-            OnValueChanged?.Invoke(this);
-        
-            foreach (var pin in _connectedPins)
+            foreach (var pin in connectedPins)
             {
-                pin.UpdateVoltage(newVoltage);
+                pin.Voltage = Voltage;
+                pin.component.UpdateLogic();
             }
         }
-    }
-
-    public enum PinType
-    {
-        Input,
-        Output
     }
 }

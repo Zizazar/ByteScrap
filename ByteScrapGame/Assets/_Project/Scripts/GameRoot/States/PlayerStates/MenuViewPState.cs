@@ -14,12 +14,12 @@
 
         public void Update()
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public void FixedUpdate()
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using _Project.Scripts.Player;
 using UnityEngine;
 
@@ -6,29 +7,34 @@ namespace _Project.Scripts.ElectricitySystem.Components
 {
     public class SwitchComponent : CircuitComponent, IInteractable
     {
-        private bool isOn;
-
-        private void Start()
-        {
-            Init();
-        }
+        private bool _isOn;
 
         public override void Init()
         {
-            base.Init();
-            GetPin("Output").Type = PinType.Output;
-        }
-
-        protected override void HandlePinValueChanged(Pin updatedPin)
-        {
-            // Переключатель не имеет входных пинов
+            componentType = "Switch";
         }
 
         public void OnInteract()
         {
             Debug.Log("toggled!");
-            isOn = !isOn;
-            GetPin("P_Output").UpdateVoltage(isOn ? 5f : 0f);
+            
+        }
+
+        public override void UpdateLogic()
+        {
+            Pin input = GetPin(isInput: true);
+            Pin output = GetPin(isInput: false);
+            if (!input || !output) return;
+            
+            if (_isOn)
+            {
+                output.Voltage = input.Voltage;
+            }
+            else
+            {
+                output.Voltage = 0;
+            }
+                
         }
     }
 }

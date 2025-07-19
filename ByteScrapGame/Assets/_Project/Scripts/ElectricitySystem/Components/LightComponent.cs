@@ -7,14 +7,16 @@ namespace _Project.Scripts.ElectricitySystem.Components
     {
         private Light _light;
         
-        private void Awake()
+
+        public override void Init()
         {
+            componentType = "Light";
             _light = GetComponent<Light>();
         }
 
-        protected override void HandlePinValueChanged(Pin updatedPin)
+        public override void UpdateLogic()
         {
-            if (updatedPin.Type == PinType.Input) _light.intensity = updatedPin.Voltage;
+            _light.intensity = GetPin(isInput: true).Voltage > 5 ? 1 : 0;
         }
     }
 }

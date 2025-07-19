@@ -10,9 +10,10 @@ namespace _Project.Scripts.Commands
         public void Init()
         {
             DebugLogConsole.AddCommand("state", "Show current states", ShowStates);
-            DebugLogConsole.AddCommand<Vector3>( "cube", "Create cube ", Bootstrap.Instance.SpawnCube );
+            DebugLogConsole.AddCommand<Vector3>("cube", "Create cube ", Bootstrap.Instance.SpawnCube);
             DebugLogConsole.AddCommand<string>("loadScene", "Switch current scene", Bootstrap.Instance.LoadScene);
-        }
+            DebugLogConsole.AddCommand<string>("create", "Create component", CreateComponent);
+    }
 
         void ShowStates()
         {
@@ -21,6 +22,19 @@ namespace _Project.Scripts.Commands
                       " | Player: " + Bootstrap.Instance.playerController?.statemachine.CurrentState.GetType().Name
                       );
             
+        }
+
+        private void CreateComponent(string type)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (!Physics.Raycast(ray, out RaycastHit hit)) return;
+
+            ComponentData componentData = new ComponentData
+            {
+                type = type,
+                position = hit.point
+            };
+            Debug.Log(CircuitManager.Instance.CreateComponent(componentData));
         }
         
     }
