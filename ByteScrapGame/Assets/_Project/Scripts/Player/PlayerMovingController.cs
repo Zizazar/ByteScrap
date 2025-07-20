@@ -28,13 +28,11 @@ namespace _Project.Scripts.Player
         private float _currentHeight;
         private float _currentTilt;
         
-        private GameInput _input;
         private Rigidbody _rigidbody;
         private bool inited;
 
-        public void Init(GameInput input)
+        public void Init()
         {
-            _input = input;
             _rigidbody = GetComponent<Rigidbody>();
             inited = true;
         }
@@ -59,7 +57,7 @@ namespace _Project.Scripts.Player
 
         private void HandleMovementInput()
         {
-            Vector2 inputDirection = _input.Player.Move.ReadValue<Vector2>();
+            Vector2 inputDirection = Bootstrap.Instance.input.Player.Move.ReadValue<Vector2>();
 
             Vector3 targetDirection = new Vector3(inputDirection.y * -1, 0f, inputDirection.x);
 

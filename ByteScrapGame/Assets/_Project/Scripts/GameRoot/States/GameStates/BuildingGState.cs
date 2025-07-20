@@ -1,10 +1,14 @@
-﻿namespace _Project.Scripts.GameRoot.States.GameStates
+﻿using _Project.Scripts.Player;
+using UnityEngine;
+
+namespace _Project.Scripts.GameRoot.States.GameStates
 {
     public class BuildingGState : IState
     {
         public void Enter()
         {
-            Bootstrap.Instance.LoadScene("SampleScene");
+            var playerController = Object.FindAnyObjectByType<PlayerController>();
+            playerController.Init();
         }
 
         public void Exit()

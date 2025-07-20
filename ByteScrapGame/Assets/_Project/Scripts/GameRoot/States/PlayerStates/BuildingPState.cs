@@ -1,37 +1,57 @@
-﻿using _Project.Scripts.Player;
+﻿using _Project.Scripts.GameRoot.LevelContexts;
+using _Project.Scripts.Player;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace _Project.Scripts.GameRoot.States.PlayerStates
 {
     public class BuildingPState : IState
     {
-        PlayerController _player;
+        private CircuitManager _circuitManager;
+        private BuildingSystem _buildingSystem;
         
         public void Enter()
         {
-            _player = Bootstrap.Instance.playerController;
+            var sceneContext = Object.FindAnyObjectByType<BuildingLevelContext>();
+
+            _buildingSystem = sceneContext.buildingSystem;
             
+            Bootstrap.Instance.input.Player.Enable();
             Bootstrap.Instance.input.Building.Enable();
-            string json = Resources.Load<TextAsset>("Levels/lvl_1").text;
-            Debug.Log(JsonUtility.FromJson<LevelJsonData>(json).name);
+            //string json = Resources.Load<TextAsset>("Levels/lvl_1").text;
+            //Debug.Log(JsonUtility.FromJson<LevelJsonData>(json).name);
             
-            _player.interactionController.EnableInteraction();
+            Bootstrap.Instance.input.Building.Place.performed += PlaceComponentAction;
+            Bootstrap.Instance.input.Building.Remove.performed += RemoveComponentAction;
+            
         }
 
         public void Exit()
         {
+            Bootstrap.Instance.input.Player.Disable();
             Bootstrap.Instance.input.Building.Disable();
-            _player.interactionController.DisableInteraction();
+            Bootstrap.Instance.input.Building.Place.performed -= PlaceComponentAction;
+            Bootstrap.Instance.input.Building.Remove.performed -= RemoveComponentAction;
         }
 
         public void Update()
         {
+            _buildingSystem?.UpdateHologram();
         }
 
         public void FixedUpdate()
         {
         }
-        
+
+        private void RemoveComponentAction(InputAction.CallbackContext ctx)
+        {
+            _buildingSystem.TryRemoveComponent();
+        }
+
+        private void PlaceComponentAction(InputAction.CallbackContext ctx)
+        {
+            _buildingSystem.TryPlaceComponent();
+        }
         
     }
 }

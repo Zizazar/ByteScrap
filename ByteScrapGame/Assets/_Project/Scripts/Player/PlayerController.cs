@@ -20,21 +20,19 @@ namespace _Project.Scripts.Player
 
         public void Init()
         {
-            _input = Bootstrap.Instance.input;
             
             movingController = GetComponent<PlayerMovingController>();
-            movingController.Init(_input);
+            movingController.Init();
             
             
             
             statemachine = GetComponent<PlayerStateMachine>();
             
             interactionController = GetComponent<PlayerInteractionController>();
-            interactionController.Init(_input, statemachine);
+            interactionController.Init();
             
             statemachine.ChangeState(new BuildingPState());
             
         }
-        
     }
 }

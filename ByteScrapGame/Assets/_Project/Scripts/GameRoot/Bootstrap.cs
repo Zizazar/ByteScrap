@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using _Project.Scripts.Commands;
-using _Project.Scripts.ElectricitySystem;
 using _Project.Scripts.GameRoot.StateMacines;
 using _Project.Scripts.GameRoot.States.GameStates;
 using _Project.Scripts.GameRoot.States.PlayerStates;
@@ -15,19 +14,17 @@ namespace _Project.Scripts.GameRoot
 {
     public class Bootstrap : MonoBehaviour
     {
-        
+        #region Singleton
         private static Bootstrap _instance;
 
-        public static Bootstrap Instance // Singleton
+        public static Bootstrap Instance
         {
             get
             {
                 // Ленивая инициализация при первом обращении
                 if (_instance == null)
                 {
-#pragma warning disable CS0618 // Type or member is obsolete
-                    _instance = FindObjectOfType<Bootstrap>();
-#pragma warning restore CS0618 // Type or member is obsolete
+                    _instance = FindAnyObjectByType<Bootstrap>();
                 
                     if (_instance == null)
                     {
@@ -38,7 +35,9 @@ namespace _Project.Scripts.GameRoot
                 return _instance;
             }
         }
+        #endregion
         
+        public string LevelToLoad;
         
         [SerializeField] private GameSettings settingsObject;
 
@@ -51,6 +50,7 @@ namespace _Project.Scripts.GameRoot
         public CircuitManager circuitManager { get; private set; }
         public DebugCommands debugCmd { get; private set; }
         public UiController ui { get; private set; }
+        public BuildingSystem buildingSystem { get; private set; }
         // ------------------------------------------------------------
         private void Start()
         {
@@ -69,71 +69,51 @@ namespace _Project.Scripts.GameRoot
             ui = GetComponentInChildren<UiController>(); // UI должен быть в BOOTSTRAP
             ui.Init();
             
-            sm_Game = GetComponent<GameStateMachine>();
-            sm_Game.ChangeState(new MenuGState());
-            
-            
-            
             input = new GameInput();
             input.Enable();
 
             debugCmd = new DebugCommands();
             debugCmd.Init();
             
-            
-
-        }
-
-        // ReSharper disable Unity.PerformanceAnalysis
-        public void InitLevel() 
-        {
-            
             playerController = FindAnyObjectByType<PlayerController>();
             playerController.Init();
             
-            //circuitManager = new CircuitManager();
-            //circuitManager.Init();
-            
-            
+            sm_Game = GetComponent<GameStateMachine>();
+            sm_Game.ChangeState(new BuildingGState());
+
             
         }
 
 
-        PlayerController SpawnPlayer()
+        public PlayerController SpawnPlayer()
         {
-            GameObject spawnedPlayer = Instantiate(settings.player.playerPrefab, settings.player.spawnPos, settings.player.spawnRot);
-            return spawnedPlayer?.GetComponent<PlayerController>();
+            var foundPlayer = FindAnyObjectByType<PlayerController>();
+            if (foundPlayer)
+            {
+                playerController = foundPlayer;
+                foundPlayer.Init();
+                return foundPlayer;
+            }
+            var spawnedPlayer = Instantiate(
+                settings.player.playerPrefab, 
+                settings.player.spawnPos, 
+                settings.player.spawnRot
+                ).GetComponent<PlayerController>();
+            spawnedPlayer.Init();
+            playerController = spawnedPlayer;
+            return spawnedPlayer;
         }
 
-        public void SpawnCube(Vector3 position)
+        private void Update()
         {
-            // Тестовый метод для спавна куба по команде
-            var spawnedObject = GameObject.CreatePrimitive( PrimitiveType.Cube );
-            spawnedObject.transform.position = position;
-            spawnedObject.GetComponent<Renderer>().material.color = Color.HSVToRGB(Random.value, 1f, 1f);
-            spawnedObject.AddComponent<BoxCollider>();
-            spawnedObject.AddComponent<Rigidbody>();
+            sm_Game?.Update();
+            sm_Player?.Update();
         }
-        
-        // Загрузка уровня
-        public void LoadScene(string sceneName)
-        {
-            StartCoroutine(CO_LoadScene(sceneName));
-        }
-        
-        private IEnumerator CO_LoadScene(string sceneName)
-        {
-            ui.loadingScreen.FadeIn();
-        
-            // Начало асинхронной загрузки уровня
-            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName);
-            if (asyncOperation == null) yield break;
-            
-            yield return new WaitUntil(() => asyncOperation.isDone);
 
-            InitLevel();
-            
-            ui.loadingScreen.FadeOut();
+        private void FixedUpdate()
+        {
+            sm_Game?.FixedUpdate();
+            sm_Player?.FixedUpdate();
         }
     }
 }

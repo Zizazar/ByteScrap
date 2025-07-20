@@ -1,40 +1,27 @@
-﻿using System;
-using System.Linq;
-using _Project.Scripts.Player;
+﻿using _Project.Scripts.Player;
 using UnityEngine;
 
 namespace _Project.Scripts.ElectricitySystem.Components
 {
     public class SwitchComponent : CircuitComponent, IInteractable
     {
-        private bool _isOn;
-
-        public override void Init()
-        {
-            componentType = "Switch";
-        }
-
+        private bool isOn = true;
+        
         public void OnInteract()
         {
-            Debug.Log("toggled!");
-            
+            isOn = !isOn;
+            Debug.Log($"Toggle Switch: {isOn}");
+            CircuitManager.Instance.RequestCircuitUpdate();
         }
 
-        public override void UpdateLogic()
+        public override void ReceiveSignal(Direction fromDirection, bool signal)
         {
-            Pin input = GetPin(isInput: true);
-            Pin output = GetPin(isInput: false);
-            if (!input || !output) return;
-            
-            if (_isOn)
-            {
-                output.Voltage = input.Voltage;
-            }
-            else
-            {
-                output.Voltage = 0;
-            }
-                
+            if (signal) newState = true;
+        }
+
+        public override bool GetOutput(Direction direction)
+        {
+            return isOn && currentState;
         }
     }
 }

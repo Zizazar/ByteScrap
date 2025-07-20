@@ -1,29 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-namespace _Project.Scripts.ElectricitySystem
+public enum Direction { North, South, East, West }
+
+public abstract class CircuitComponent : MonoBehaviour
 {
-    public abstract class CircuitComponent : MonoBehaviour
+    [SerializeField] private Renderer _renderer;
+    private Material[] _cachedMaterials;
+    
+    public int GridX { get; private set; }
+    public int GridY { get; private set; }
+    protected bool currentState;
+    protected bool newState;
+
+
+    public virtual void Initialize(int gridX, int gridY)
     {
-        public string componentId;
-        public string componentType;
-        
-        public List<Pin> pins = new();
-
-        private void Start()
-        {
-            if (string.IsNullOrEmpty(componentId))
-                componentId = Guid.NewGuid().ToString();
-            Init();
-        }
-
-        public abstract void Init();
-        
-        public abstract void UpdateLogic();
-
-        protected Pin GetPin(string pinName) => pins.FirstOrDefault(p => p.Name == pinName);
-        protected Pin GetPin(bool isInput) => pins.FirstOrDefault(p => p.IsInput == isInput);
+        GridX = gridX;
+        GridY = gridY;
+        currentState = false;
+        newState = false;
     }
+
+    public virtual void ResetState()
+    {
+        currentState = false;
+        newState = false;
+    }
+
+    public virtual void PrepareForUpdate()
+    {
+        newState = false;
+    }
+
+    public virtual void UpdateState()
+    {
+        currentState = newState;
+    }
+
+    public abstract void ReceiveSignal(Direction fromDirection, bool signal);
+    public abstract bool GetOutput(Direction direction);
 }

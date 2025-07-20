@@ -1,4 +1,5 @@
 ﻿using System;
+using _Project.Scripts.GameRoot;
 using _Project.Scripts.GameRoot.StateMacines;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,16 +8,11 @@ namespace _Project.Scripts.Player
 {
     public class PlayerInteractionController : MonoBehaviour
     {
-        private GameInput _input;
-        private PlayerStateMachine _stateMachine;
 
 
-        public void Init(GameInput input, PlayerStateMachine statemachine)
+        public void Init()
         {
-            _input = input;
-            _stateMachine = statemachine;
-            
-            EnableInteraction();
+            Debug.Log("Player interaction controller init");
         }
 
         private void OnDestroy()
@@ -31,9 +27,8 @@ namespace _Project.Scripts.Player
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
                 Physics.Raycast(ray, out hit);
-                    
                 IInteractable interactable =
-                    hit.collider.gameObject.GetComponent(typeof(IInteractable)) as IInteractable;
+                    hit.collider.gameObject.GetComponentInParent(typeof(IInteractable)) as IInteractable;
                 interactable?.OnInteract();
                 Debug.Log(interactable);
                 Debug.Log(hit.collider.gameObject);
@@ -43,12 +38,12 @@ namespace _Project.Scripts.Player
 
         public void EnableInteraction()
         {
-            _input.Player.Interact.performed += InteractionAction;
+            Bootstrap.Instance.input!.Interaction.Interact.performed += InteractionAction;
         }
 
         public void DisableInteraction()
         {
-            _input.Player.Interact.performed -= InteractionAction;
+            Bootstrap.Instance.input!.Interaction.Interact.performed -= InteractionAction;
         }
         
     }
