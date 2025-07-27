@@ -16,7 +16,6 @@ namespace _Project.Scripts.GameRoot.States.PlayerStates
 
             _buildingSystem = sceneContext.buildingSystem;
             
-            Bootstrap.Instance.input.Player.Enable();
             Bootstrap.Instance.input.Building.Enable();
             //string json = Resources.Load<TextAsset>("Levels/lvl_1").text;
             //Debug.Log(JsonUtility.FromJson<LevelJsonData>(json).name);
@@ -28,7 +27,6 @@ namespace _Project.Scripts.GameRoot.States.PlayerStates
 
         public void Exit()
         {
-            Bootstrap.Instance.input.Player.Disable();
             Bootstrap.Instance.input.Building.Disable();
             Bootstrap.Instance.input.Building.Place.performed -= PlaceComponentAction;
             Bootstrap.Instance.input.Building.Remove.performed -= RemoveComponentAction;

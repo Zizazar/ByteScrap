@@ -3,9 +3,31 @@ using UnityEngine;
 
 namespace _Project.Scripts.ElectricitySystem.Components
 {
+[System.Serializable]
+    public class SwitchSaveData : ComponentSaveData
+    {
+        public bool isOn;
+
+        public override void ApplyToComponent(CircuitComponent component)
+        {
+            if (component is SwitchComponent switchComp)
+            {
+                switchComp.isOn = isOn;
+            }
+        }
+
+        public override void CollectFromComponent(CircuitComponent component)
+        {
+            if (component is SwitchComponent switchComp)
+            {
+                isOn = switchComp.isOn;
+            }
+        }
+    }
+
     public class SwitchComponent : CircuitComponent, IInteractable
     {
-        private bool isOn = true;
+        public bool isOn = true;
         
         public void OnInteract()
         {

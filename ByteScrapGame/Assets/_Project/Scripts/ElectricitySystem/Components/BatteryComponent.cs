@@ -1,4 +1,11 @@
-﻿public class BatteryComponent : CircuitComponent
+﻿[System.Serializable]
+public class BatterySaveData : ComponentSaveData
+{
+    public override void ApplyToComponent(CircuitComponent component) { }
+    public override void CollectFromComponent(CircuitComponent component) { }
+}
+
+public class BatteryComponent : CircuitComponent
 {
     public override void Initialize(int gridX, int gridY)
     {

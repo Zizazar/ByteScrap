@@ -33,6 +33,8 @@ public class CircuitManager : MonoBehaviour
         components[pos] = component;
         RequestCircuitUpdate();
     }
+    
+    public void ClearAllComponents() => components.Clear();
 
     public bool TryRemoveComponent(Vector2Int gridPos)
     {
@@ -58,6 +60,9 @@ public class CircuitManager : MonoBehaviour
 
     private IEnumerator UpdateCircuitCoroutine()
     {
+        // Нет необходимости обновлять пустую схему
+        if (components.Count == 0) yield break;
+        
         isUpdating = true;
         
         // Фаза 1: Подготовка компонентов
@@ -106,7 +111,7 @@ public class CircuitManager : MonoBehaviour
 
         isUpdating = false;
         
-        // Если запрошено новое обновление
+        // Запускаем ещё раз если надо
         if (updateRequested)
         {
             updateRequested = false;

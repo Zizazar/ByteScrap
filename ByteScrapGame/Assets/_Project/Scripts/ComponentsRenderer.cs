@@ -49,7 +49,7 @@ namespace _Project.Scripts
         private Dictionary<string, RenderTexture> _cachedRenders = new ();
 
         private int _currentImageIndex;
-        private bool _isRendered = false;
+        private bool _isRendered;
         
         public void Render()
         {
@@ -74,11 +74,12 @@ namespace _Project.Scripts
                 renderCamera.targetTexture = renderTexture;
                 renderCamera.Render();
                 yield return new WaitForEndOfFrame();
+                renderCamera.targetTexture = null;
                 _cachedRenders.Add(objectToRender.name, renderTexture);
                 Destroy(objectToRender);
                 yield return new WaitUntil(() => objectToRender.IsDestroyed());
-                _isRendered = true;
             }
+            _isRendered = true;
         }
 
         private void Start()

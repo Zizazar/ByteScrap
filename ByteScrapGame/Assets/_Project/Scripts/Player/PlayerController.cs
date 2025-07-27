@@ -15,8 +15,6 @@ namespace _Project.Scripts.Player
         
         public PlayerMovingController movingController;
         public PlayerInteractionController interactionController;
-        
-        private GameInput _input;
 
         public void Init()
         {
@@ -32,7 +30,17 @@ namespace _Project.Scripts.Player
             interactionController.Init();
             
             statemachine.ChangeState(new BuildingPState());
-            
+            Bootstrap.Instance.input.Player.Enable();
+            Bootstrap.Instance.input.Player.BuildMode.performed += BuildSwitchAction;
         }
+
+
+        private void BuildSwitchAction(InputAction.CallbackContext ctx)
+        {
+            if (statemachine.CurrentState is BuildingPState)
+                statemachine.ChangeState(new InteractPState());
+            else
+                statemachine.ChangeState(new BuildingPState());
+        } 
     }
 }

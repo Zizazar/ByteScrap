@@ -22,6 +22,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "BuildMode",
+                    "type": "Button",
+                    "id": "e2d27a55-522b-4fa9-9dd1-207e9714dd6c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -187,6 +196,17 @@
                     "processors": "",
                     "groups": "Joystick",
                     "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f68099e7-6797-4af7-bdc8-d8275597f0d7",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BuildMode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -735,7 +755,7 @@
                 {
                     "name": "",
                     "id": "4bc15d93-1d88-4988-8841-d4a4e1a3d973",
-                    "path": "",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -746,7 +766,7 @@
                 {
                     "name": "",
                     "id": "6f0e8dd8-a2da-46f6-aff3-f2327ad9a4c7",
-                    "path": "",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
