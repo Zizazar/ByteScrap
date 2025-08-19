@@ -1,5 +1,7 @@
 ﻿using System;
+using _Project.Scripts.ElectricitySystem;
 using DG.Tweening;
+using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,14 +10,14 @@ public class BuildingSystem : MonoBehaviour
     public GridLayout grid;
     public Camera mainCamera;
     public CircuitManager circuitManager;
-    public GameObject[] componentPrefabs;
-    
-    private int selectedComponentIndex;
+
+    public string[] avalibleComponents;
     
     private GameObject componentToPlace;
     private HologramEffect componentToPlaceHologram;
     private Vector2Int lastGridPos;
-
+    
+    
     public void UpdateHologram()
     {
         if (!componentToPlace || !componentToPlaceHologram) return;
@@ -41,15 +43,16 @@ public class BuildingSystem : MonoBehaviour
                 Debug.LogWarning("Trying to place a component on other");
                 return;
             }
-
-            Destroy(componentToPlaceHologram);
             
+            RemoveHologram();
             
             CircuitComponent component = componentToPlace.GetComponent<CircuitComponent>();
             component.Initialize(gridPos.x, gridPos.y);
             circuitManager.RegisterComponent(component, gridPos.x, gridPos.y);
-            
+
             componentToPlace = null;
+            
+            circuitManager.RequestCircuitUpdate();
         }
 
     public void TryRemoveComponent()
@@ -69,6 +72,14 @@ public class BuildingSystem : MonoBehaviour
                 break;
             }
         }
+        circuitManager.RequestCircuitUpdate();
+    }
+
+    public void RemoveHologram()
+    {
+        if (!componentToPlace) return;
+        Destroy(componentToPlaceHologram);
+        componentToPlaceHologram = null;
     }
 
     private Vector3 GetMouseWorldPosition()
@@ -91,13 +102,12 @@ public class BuildingSystem : MonoBehaviour
         return pos;
     }
 
-    public void SelectComponent(int index)
+    public void SelectComponent(string typeName)
     {
-        selectedComponentIndex = index;
-        Destroy(componentToPlace);
-        Destroy(componentToPlaceHologram);
+        if (componentToPlace) Destroy(componentToPlace);
+        
         componentToPlace = Instantiate(
-            componentPrefabs[selectedComponentIndex],
+            GetComponentPrefabByType(typeName),
             GetWorldPosFromCell(GetGridPos()),
             Quaternion.identity
         );
@@ -106,6 +116,31 @@ public class BuildingSystem : MonoBehaviour
         Debug.Log($"Selected component: {componentToPlace.name}");
     }
 
+    public void PlaceComponentByType(string typeName, GridCellData data)
+    {
+        var go = GetComponentPrefabByType(typeName);
+
+        if (!go) {
+            Debug.LogError($"Can't find component type: {typeName}");
+            return;
+        }
+        
+        Vector3 pos = GetWorldPosFromCell(new Vector2Int(data.x, data.y));
+        
+        var comp = Instantiate(
+                go, pos, Quaternion.identity
+                ).GetComponent<CircuitComponent>();
+        // Засовываем все нужные данные в компонент
+        comp.Initialize(data.x, data.y);
+        comp.FromComponentData(data.component);
+        
+        circuitManager.RegisterComponent(comp, data.x, data.y);
+    }
+
+    private GameObject GetComponentPrefabByType(string typeName) =>
+        Resources.Load<GameObject>($"Components/{typeName}");
+    
+    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;

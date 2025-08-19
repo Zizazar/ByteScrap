@@ -9,12 +9,14 @@ namespace _Project.Scripts.UI
         public MenuUiController menu;
         public LevelSelectUiController levelSelect;
         public LoadingScreenController loadingScreen;
+        public ComponentSelectUiController componentSelect;
 
         public void Init()
         {
             menu.Init();
             levelSelect.Init();
             loadingScreen.Init();
+            componentSelect.Init();
         }
     }
 }

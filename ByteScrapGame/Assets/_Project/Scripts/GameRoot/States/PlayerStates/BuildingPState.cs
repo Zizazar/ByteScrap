@@ -1,6 +1,7 @@
 ﻿using _Project.Scripts.GameRoot.LevelContexts;
 using _Project.Scripts.Player;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace _Project.Scripts.GameRoot.States.PlayerStates
@@ -23,6 +24,7 @@ namespace _Project.Scripts.GameRoot.States.PlayerStates
             Bootstrap.Instance.input.Building.Place.performed += PlaceComponentAction;
             Bootstrap.Instance.input.Building.Remove.performed += RemoveComponentAction;
             
+            Bootstrap.Instance.ui.componentSelect.Open();
         }
 
         public void Exit()
@@ -30,6 +32,8 @@ namespace _Project.Scripts.GameRoot.States.PlayerStates
             Bootstrap.Instance.input.Building.Disable();
             Bootstrap.Instance.input.Building.Place.performed -= PlaceComponentAction;
             Bootstrap.Instance.input.Building.Remove.performed -= RemoveComponentAction;
+            
+            Bootstrap.Instance.ui.componentSelect.Close();
         }
 
         public void Update()
@@ -43,11 +47,13 @@ namespace _Project.Scripts.GameRoot.States.PlayerStates
 
         private void RemoveComponentAction(InputAction.CallbackContext ctx)
         {
+            if (Bootstrap.Instance.ui.componentSelect.IsMouseOver()) return;
             _buildingSystem.TryRemoveComponent();
         }
 
         private void PlaceComponentAction(InputAction.CallbackContext ctx)
         {
+            if (Bootstrap.Instance.ui.componentSelect.IsMouseOver()) return;
             _buildingSystem.TryPlaceComponent();
         }
         

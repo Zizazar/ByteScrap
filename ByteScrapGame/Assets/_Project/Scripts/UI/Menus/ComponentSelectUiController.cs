@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using _Project.Scripts.GameRoot.LevelContexts;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace _Project.Scripts.UI
 {
@@ -9,9 +10,10 @@ namespace _Project.Scripts.UI
     {
         [SerializeField] private GameObject buttonsArea;
         [SerializeField] private GameObject buttonPrefab;
+        [SerializeField] private MouseHoverHelper rootMouseHover;
         
-        private List<SelectButtonController> _buttons = new ();
-        private int _last_button_selection = -1;
+        private Dictionary<string, SelectButtonController> _buttons = new ();
+        private string _last_button_selection;
         
         
         private CircuitManager _circuitManager;
@@ -30,29 +32,33 @@ namespace _Project.Scripts.UI
             
             yield return new WaitUntil(() => ComponentsRenderer.Instance.IsRendered);
             
-            var renders = ComponentsRenderer.Instance.GetAllRenders();
-            Debug.Log(renders.Count);
-            for (int i = 0; i < renders.Count; i++)
+            var renders = ComponentsRenderer.Instance.GetAllRendersMapped();
+            foreach(KeyValuePair<string, RenderTexture> render in renders)
             {
                 var newButton = 
                     Instantiate(buttonPrefab, buttonsArea.transform, false)
                         .GetComponent<SelectButtonController>();
                 
-                newButton.Init(renders[i]);
-                _buttons.Insert(i, newButton);
-                newButton.index = i;
-                newButton.button.onClick.AddListener(() => SelectComponent(newButton.index));
+                newButton.Init(render.Key, render.Value);
+                _buttons.Add(render.Key, newButton);
+                newButton.button.onClick.AddListener(() => SelectComponent(newButton.componentTypeName));
             }
         }
 
-        private void SelectComponent(int index)
+        private void SelectComponent(string componentTypeName)
         {
-            if (index == _last_button_selection) return;
-            if (_last_button_selection != -1) _buttons[_last_button_selection].Select(false);
-            var button = _buttons[index];
+            if (componentTypeName == _last_button_selection) return;
+            if (_last_button_selection != null) _buttons[_last_button_selection].Select(false);
+            var button = _buttons[componentTypeName];
             button.Select(true);
-            _last_button_selection = index;
-            _buildingSystem.SelectComponent(index);
+            _last_button_selection = componentTypeName;
+            _buildingSystem.SelectComponent(componentTypeName);
         }
+
+        public bool IsMouseOver()
+        {
+            return rootMouseHover.MouseOver;
+        }
+        
     }
 }

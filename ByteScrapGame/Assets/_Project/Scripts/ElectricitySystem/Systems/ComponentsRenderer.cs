@@ -67,15 +67,17 @@ namespace _Project.Scripts
                 
                 foreach (var trans in objectToRender.GetComponentsInChildren<Transform>())
                     trans.gameObject.layer = LayerMask.NameToLayer("Render");
-                
-                label.text = objectToRender.name;
+                string typename = objectToRender.GetComponent<CircuitComponent>().ComponentType;
+                label.text = typename;
                 
                 var renderTexture = new RenderTexture(width, height, 24);
                 renderCamera.targetTexture = renderTexture;
                 renderCamera.Render();
-                yield return new WaitForEndOfFrame();
+                yield return new WaitForEndOfFrame(); // Ожидаем захват кадра
                 renderCamera.targetTexture = null;
-                _cachedRenders.Add(objectToRender.name, renderTexture);
+                
+                
+                _cachedRenders.Add(typename, renderTexture);
                 Destroy(objectToRender);
                 yield return new WaitUntil(() => objectToRender.IsDestroyed());
             }
@@ -103,12 +105,14 @@ namespace _Project.Scripts
             return _cachedRenders.GetValueOrDefault(componentName);
         }
 
-        public List<RenderTexture> GetAllRenders()
+        public Dictionary<string, RenderTexture> GetAllRendersMapped()
         {
             if (!_isRendered) Render();
-            return _cachedRenders.Values.ToList();
+            return _cachedRenders;
         }
         
+        public List<RenderTexture> GetAllRenders() => GetAllRendersMapped().Values.ToList();
+
         public bool IsRendered => _isRendered;
     }
 }

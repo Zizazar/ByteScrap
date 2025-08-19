@@ -8,15 +8,16 @@ namespace _Project.Scripts.UI
     {
         public Button button;
         public RawImage rawImage;
-        public int index;
+        public string componentTypeName;
 
         [SerializeField] private GameObject selectVisual;
-        public void Init(RenderTexture renderTexture)
+        public void Init(string typeName,RenderTexture renderTexture)
         {
             button = GetComponent<Button>();
             rawImage = GetComponent<RawImage>();
             
             rawImage.texture = renderTexture;
+            componentTypeName = typeName;
         }
 
         public void Select(bool state)

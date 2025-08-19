@@ -1,29 +1,9 @@
-﻿using _Project.Scripts.Player;
+﻿using System.Collections.Generic;
+using _Project.Scripts.Player;
 using UnityEngine;
 
 namespace _Project.Scripts.ElectricitySystem.Components
 {
-[System.Serializable]
-    public class SwitchSaveData : ComponentSaveData
-    {
-        public bool isOn;
-
-        public override void ApplyToComponent(CircuitComponent component)
-        {
-            if (component is SwitchComponent switchComp)
-            {
-                switchComp.isOn = isOn;
-            }
-        }
-
-        public override void CollectFromComponent(CircuitComponent component)
-        {
-            if (component is SwitchComponent switchComp)
-            {
-                isOn = switchComp.isOn;
-            }
-        }
-    }
 
     public class SwitchComponent : CircuitComponent, IInteractable
     {
@@ -45,5 +25,16 @@ namespace _Project.Scripts.ElectricitySystem.Components
         {
             return isOn && currentState;
         }
+
+        protected override Dictionary<string, string> GetProperties() => new()
+        {
+            { "isOn", isOn.ToString() }
+        };
+
+        protected override void SetProperties(Dictionary<string, string> properties)
+        {
+            isOn = bool.Parse(properties.GetValueOrDefault("isOn", "false"));
+        }
+
     }
 }
