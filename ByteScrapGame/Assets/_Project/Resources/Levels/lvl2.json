@@ -1,0 +1,18 @@
+{
+	"ID": "lvl2",
+	"name": "Знакомство с источником питания",
+	"description":"",
+	"difficulty": 1,
+	"avalibleComponents": ["switch"],
+	"initialGridCells": [
+    {
+      "x": 0,
+      "y": 1,
+      "component": {
+        "componentID": "4fca1182-95b2-4390-8111-b6ea5328ee2f",
+        "componentType": "BatteryComponent",
+        "properties": {}
+      }
+    }
+  ]
+}

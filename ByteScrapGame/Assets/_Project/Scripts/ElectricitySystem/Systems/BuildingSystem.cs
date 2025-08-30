@@ -8,7 +8,6 @@ using UnityEngine;
 public class BuildingSystem : MonoBehaviour
 {
     public GridLayout grid;
-    public Camera mainCamera;
     public CircuitManager circuitManager;
 
     public string[] avalibleComponents;
@@ -84,7 +83,7 @@ public class BuildingSystem : MonoBehaviour
 
     private Vector3 GetMouseWorldPosition()
     {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         return Physics.Raycast(ray, out RaycastHit hit, 50, LayerMask.GetMask("Ground")) ? hit.point : Vector3.zero;
     }
 

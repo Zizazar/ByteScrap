@@ -20,10 +20,8 @@ public class CircuitManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        else
-        {
-            Instance = this;
-        }
+
+        Instance = this;
     }
     #endregion
     

@@ -51,11 +51,11 @@ namespace _Project.Scripts
         private int _currentImageIndex;
         private bool _isRendered;
         
-        public void Render()
+        public Coroutine Render()
         {
             _currentImageIndex = 0;
             _cachedRenders.Clear();
-            StartCoroutine(CO_Render());
+            return StartCoroutine(CO_Render());
 
         }
 
@@ -85,19 +85,9 @@ namespace _Project.Scripts
         }
 
         private void Start()
-        {
-            Render();
-            button.onClick.AddListener(SetImage);
-            button2.onClick.AddListener(Render);
+        { 
         }
 
-        private void SetImage()
-        {
-            if (_cachedRenders.Count == 0) return;
-            image.texture = GetAllRenders()[_currentImageIndex];
-            _currentImageIndex++;
-            if (_currentImageIndex >= _cachedRenders.Count) _currentImageIndex = 0;
-        }
         
         public RenderTexture GetRender(string componentName)
         {

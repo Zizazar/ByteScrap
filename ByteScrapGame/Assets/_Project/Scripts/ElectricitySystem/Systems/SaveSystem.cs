@@ -30,9 +30,19 @@ namespace _Project.Scripts.ElectricitySystem
     
     public class SaveSystem : MonoBehaviour
     {
+        private string GetSavePath(string id)
+        {
+            var saveDirectory = Path.Combine(Application.persistentDataPath, "Saves");
+            if (!Directory.Exists(saveDirectory)) 
+                Directory.CreateDirectory(saveDirectory);
+            return Path.Combine(saveDirectory, $"{id}.json");
+        }
+
         [SerializeField] private BuildingSystem buildingSystem;
 
         private string _lastJson;
+
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.S))
@@ -50,7 +60,14 @@ namespace _Project.Scripts.ElectricitySystem
         {
             var saveData = JsonConvert.DeserializeObject<SaveData>(json);
             
-            foreach (var data in saveData.gridData)
+            LoadGrid(saveData.gridData);
+        
+            Debug.Log($"Схема загружена: \n {json}");
+        }
+
+        public void LoadGrid(List<GridCellData> gridData)
+        {
+            foreach (var data in gridData)
             {
                 if (buildingSystem.circuitManager.IsPositionOccupied(new Vector2Int(data.x, data.y)))
                 {
@@ -60,8 +77,6 @@ namespace _Project.Scripts.ElectricitySystem
                 buildingSystem.PlaceComponentByType(data.component.componentType, data);
             }
             buildingSystem.circuitManager.RequestCircuitUpdate();
-        
-            Debug.Log($"Схема загружена: \n {json}");
         }
 
         public string SaveToJson()
@@ -87,5 +102,21 @@ namespace _Project.Scripts.ElectricitySystem
             Debug.Log($"Схема сохранена: \n {json}");
             return json;
         }
+
+        public bool SaveFileExist(string id)
+        {
+            return File.Exists(GetSavePath(id));
+        }
+        
+        public void LoadFromSaveFile(string id)
+        {
+            var json = File.ReadAllText(GetSavePath(id));
+            LoadFromJson(json);
+        }
+
+        public void SaveToFile(string id)
+        {
+            File.WriteAllText(GetSavePath(id), SaveToJson());
+        } 
     }
 }

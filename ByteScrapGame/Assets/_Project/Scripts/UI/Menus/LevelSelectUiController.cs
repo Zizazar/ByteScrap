@@ -1,12 +1,20 @@
-﻿namespace _Project.Scripts.UI
+﻿using UnityEngine;
+
+namespace _Project.Scripts.UI
 {
     public class LevelSelectUiController : ScreenBase
     {
-        // TODO: прокручеваемый список и функцию для добавления туда плашки с уровнем
-
-        public void AddLevelCard(string levelName, string levelDescription, int levelStage, int levelDifficulty, bool isCompleted)
+        [SerializeField] private GameObject CardPrefab;
+        [SerializeField] private Transform CardContainer;
+        
+        
+        public void AddLevelCard(LevelData levelData)
         {
+            var cardObj = Instantiate(CardPrefab, CardContainer);
+
+            var card =  cardObj.GetComponent<LevelSelectButtonController>();
             
+            card.Init(levelData);
         }
     }
 }

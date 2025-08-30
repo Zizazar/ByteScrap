@@ -37,20 +37,16 @@ namespace _Project.Scripts.GameRoot
         }
         #endregion
         
-        public string LevelToLoad;
-        
         [SerializeField] private GameSettings settingsObject;
 
         // -----Референсы классов для подтягивания зависимостей--------
         public GameStateMachine sm_Game { get; private set; }
         public PlayerStateMachine sm_Player { get; private set; }
         public GameSettings settings => settingsObject;
-        public PlayerController playerController { get; private set; }
+        public PlayerController playerController { get; set; }
         public GameInput input { get; private set; }
-        public CircuitManager circuitManager { get; private set; }
         public DebugCommands debugCmd { get; private set; }
         public UiController ui { get; private set; }
-        public BuildingSystem buildingSystem { get; private set; }
         // ------------------------------------------------------------
         private void Start()
         {
@@ -75,11 +71,12 @@ namespace _Project.Scripts.GameRoot
             debugCmd = new DebugCommands();
             debugCmd.Init();
             
-            playerController = FindAnyObjectByType<PlayerController>();
-            playerController.Init();
             
             sm_Game = GetComponent<GameStateMachine>();
-            sm_Game.ChangeState(new BuildingGState());
+            sm_Game.ChangeState(new MenuGState());
+            
+            sm_Player = GetComponent<PlayerStateMachine>();
+            sm_Player.ChangeState(new MenuViewPState());
 
             
         }

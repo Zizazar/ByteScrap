@@ -1,4 +1,6 @@
-﻿using _Project.Scripts.GameRoot.States.GameStates;
+﻿using _Project.Scripts.ElectricitySystem;
+using _Project.Scripts.GameRoot.States.GameStates;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace _Project.Scripts.GameRoot.LevelContexts
@@ -8,17 +10,36 @@ namespace _Project.Scripts.GameRoot.LevelContexts
         public BuildingSystem buildingSystem;
         public Grid grid;
         public CircuitManager circuitManager;
+        public SaveSystem saveSystem;
         
-        public override void InitLevel()
+        public LevelData currentLevel;
+        
+        public override void InitLevel(LevelData levelData)
         {
             Bootstrap.Instance.sm_Game.ChangeState(new BuildingGState());
+            
+            currentLevel = levelData;
+            buildingSystem.avalibleComponents = currentLevel.avalibleComponents;
+
+            // Загружаем сейв из файла если он есть
+            if (saveSystem.SaveFileExist(levelData.ID))
+            {
+                saveSystem.LoadFromSaveFile(levelData.ID);
+            }
+            else
+            {
+                saveSystem.LoadGrid(currentLevel.initialGridCells);
+            }
+            
             buildingSystem.enabled = true;
-            base.InitLevel();
+            base.InitLevel(levelData);
         }
+        
 
         public override void DisposeLevel()
         {
-            buildingSystem.enabled = false;
+            Destroy(buildingSystem.gameObject);
+            saveSystem.SaveToFile(currentLevel.ID);
             base.DisposeLevel();
         }
     }

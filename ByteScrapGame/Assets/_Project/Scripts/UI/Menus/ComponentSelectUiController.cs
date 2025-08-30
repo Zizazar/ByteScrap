@@ -18,8 +18,8 @@ namespace _Project.Scripts.UI
         
         private CircuitManager _circuitManager;
         private BuildingSystem _buildingSystem;
-        
-        private void Start()
+
+        public void Initialize()
         {
             StartCoroutine(CO_Start());
             var sceneContext = FindAnyObjectByType<BuildingLevelContext>();

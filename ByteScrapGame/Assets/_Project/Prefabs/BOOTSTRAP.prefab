@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4126646549002926367}
   - component: {fileID: 7269270636793590397}
   - component: {fileID: 561596128872761142}
+  - component: {fileID: 148134219022722810}
   m_Layer: 0
   m_Name: BOOTSTRAP
   m_TagString: Untagged
@@ -46,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 696a64c685a63f146a694167731e2674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LevelToLoad: 
   settingsObject: {fileID: 11400000, guid: 6941651831b679148981235992ee821b, type: 2}
 --- !u!114 &561596128872761142
 MonoBehaviour:
@@ -57,6 +59,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 920630af731c4cd08e668b4eb497bb44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &148134219022722810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020788792151087256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 422b34a7a61d47ce86e721741fa47d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &5039841819861895003

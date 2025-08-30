@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using _Project.Scripts.GameRoot.LevelContexts;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,14 +9,24 @@ namespace _Project.Scripts.GameRoot.States.GameStates
     public class LoadingLevelState : IState
     
     {
+        
+        private LevelData _levelData;
+        
+        
+        public LoadingLevelState(LevelData levelData)
+        {
+            _levelData = levelData;
+        }
+
         public void Enter()
         {
-            Bootstrap.Instance.StartCoroutine(CO_LoadScene(Bootstrap.Instance.LevelToLoad));
+            Bootstrap.Instance.ui.loadingScreen.FadeIn();
+            Bootstrap.Instance.StartCoroutine(CO_LoadScene());
         }
 
         public void Exit()
         {
-            Bootstrap.Instance.LevelToLoad = null;
+            Bootstrap.Instance.ui.loadingScreen.FadeOut();
         }
 
         public void Update()
@@ -26,20 +37,18 @@ namespace _Project.Scripts.GameRoot.States.GameStates
         {
         }
         
-        private IEnumerator CO_LoadScene(string sceneName)
+        private IEnumerator CO_LoadScene()
         {
-            Bootstrap.Instance.ui.loadingScreen.FadeIn();
-        
             // Начало асинхронной загрузки уровня
-            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("SampleScene");
             if (asyncOperation == null) yield break;
             
             yield return new WaitUntil(() => asyncOperation.isDone);
-
-            var levelContext = Object.FindAnyObjectByType<LevelContext>();
-            levelContext!.InitLevel();
             
-            Bootstrap.Instance.ui.loadingScreen.FadeOut();
+            yield return ComponentsRenderer.Instance.Render();
+            
+            var levelContext = Object.FindAnyObjectByType<LevelContext>();
+            levelContext!.InitLevel(_levelData);
         }
     }
 }

@@ -1,0 +1,38 @@
+{
+	"ID": "lvl1",
+	"name": "",
+	"description":"",
+	"difficulty": 1,
+	"avalibleComponents": ["switch"],
+	"initialGridCells": [
+    {
+      "x": 0,
+      "y": 1,
+      "component": {
+        "componentID": "4fca1182-95b2-4390-8111-b6ea5328ee2f",
+        "componentType": "BatteryComponent",
+        "properties": {}
+      }
+    },
+    {
+      "x": 0,
+      "y": 3,
+      "component": {
+        "componentID": "d4b520cf-25d9-4346-a07e-330d88e011d3",
+        "componentType": "LampComponent",
+        "properties": {}
+      }
+    },
+    {
+      "x": 0,
+      "y": 2,
+      "component": {
+        "componentID": "41842b25-c971-451c-ae82-8f573163dca9",
+        "componentType": "SwitchComponent",
+        "properties": {
+          "isOn": "False"
+        }
+      }
+    }
+  ]
+}

@@ -10,6 +10,7 @@ namespace _Project.Scripts.GameRoot.States.GameStates
         {
             SceneManager.LoadScene("Menu");
             Bootstrap.Instance.ui.menu.Open();
+            Bootstrap.Instance.sm_Game.ChangeState(new LevelSelectGState());
         }
 
         public void Exit()
