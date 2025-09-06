@@ -31,8 +31,15 @@ public class CircuitManager : MonoBehaviour
         components[pos] = component;
         RequestCircuitUpdate();
     }
-    
-    public void ClearAllComponents() => components.Clear();
+
+    public void ClearAllComponents()
+    {
+        foreach (var component in components)
+        {
+            Destroy(component.Value.gameObject);
+        }
+        components.Clear();
+    }
 
     public bool TryRemoveComponent(Vector2Int gridPos)
     {

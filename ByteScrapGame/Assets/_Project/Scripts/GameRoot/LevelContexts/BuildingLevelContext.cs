@@ -38,8 +38,8 @@ namespace _Project.Scripts.GameRoot.LevelContexts
 
         public override void DisposeLevel()
         {
-            Destroy(buildingSystem.gameObject);
             saveSystem.SaveToFile(currentLevel.ID);
+            circuitManager.ClearAllComponents();
             base.DisposeLevel();
         }
     }

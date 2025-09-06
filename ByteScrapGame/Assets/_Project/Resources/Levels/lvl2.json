@@ -1,6 +1,6 @@
 {
 	"ID": "lvl2",
-	"name": "Знакомство с источником питания",
+	"name": "Второй",
 	"description":"",
 	"difficulty": 1,
 	"avalibleComponents": ["switch"],

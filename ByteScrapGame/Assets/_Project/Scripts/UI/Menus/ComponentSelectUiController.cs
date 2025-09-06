@@ -18,15 +18,27 @@ namespace _Project.Scripts.UI
         
         private CircuitManager _circuitManager;
         private BuildingSystem _buildingSystem;
+        
+        private bool _initialized;
 
         public void Initialize()
         {
-            StartCoroutine(CO_Start());
             var sceneContext = FindAnyObjectByType<BuildingLevelContext>();
-
             _buildingSystem = sceneContext.buildingSystem;
+            ClearButtons();
+            StartCoroutine(CO_Start());
+            
         }
 
+        private void ClearButtons()
+        {
+            foreach (var button in _buttons)
+            {
+                Destroy(button.Value.gameObject);
+            }
+            _buttons.Clear();
+        }
+        
         private IEnumerator CO_Start()
         {
             

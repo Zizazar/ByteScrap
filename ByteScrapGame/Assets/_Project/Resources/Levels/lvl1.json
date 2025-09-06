@@ -1,6 +1,6 @@
 {
 	"ID": "lvl1",
-	"name": "",
+	"name": "Первый уровень",
 	"description":"",
 	"difficulty": 1,
 	"avalibleComponents": ["switch"],

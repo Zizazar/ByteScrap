@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using _Project.Scripts.ElectricitySystem;
 using DG.Tweening;
 using Unity.Mathematics;
@@ -134,6 +135,7 @@ public class BuildingSystem : MonoBehaviour
         comp.FromComponentData(data.component);
         
         circuitManager.RegisterComponent(comp, data.x, data.y);
+        
     }
 
     private GameObject GetComponentPrefabByType(string typeName) =>

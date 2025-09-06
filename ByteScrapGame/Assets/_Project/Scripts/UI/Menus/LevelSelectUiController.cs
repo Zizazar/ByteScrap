@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace _Project.Scripts.UI
 {
@@ -7,6 +8,7 @@ namespace _Project.Scripts.UI
         [SerializeField] private GameObject CardPrefab;
         [SerializeField] private Transform CardContainer;
         
+        private List<GameObject> Cards = new();
         
         public void AddLevelCard(LevelData levelData)
         {
@@ -15,6 +17,16 @@ namespace _Project.Scripts.UI
             var card =  cardObj.GetComponent<LevelSelectButtonController>();
             
             card.Init(levelData);
+            Cards.Add(cardObj);
+        }
+
+        public void ClearLevelCards()
+        {
+            foreach (var card in Cards)
+            {
+                Destroy(card.gameObject);
+            }
+            Cards.Clear();
         }
     }
 }

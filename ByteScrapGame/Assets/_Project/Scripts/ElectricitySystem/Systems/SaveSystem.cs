@@ -112,6 +112,7 @@ namespace _Project.Scripts.ElectricitySystem
         {
             var json = File.ReadAllText(GetSavePath(id));
             LoadFromJson(json);
+            Debug.Log($"Level {id} has been loaded");
         }
 
         public void SaveToFile(string id)

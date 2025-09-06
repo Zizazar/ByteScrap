@@ -28,12 +28,15 @@ namespace _Project.Scripts.GameRoot.States.GameStates
 
         private void UpdateLevelsList()
         {
+            Bootstrap.Instance.ui.levelSelect.ClearLevelCards();
+            
             var jsonAssets = Resources.LoadAll<TextAsset>("Levels");
 
+            Debug.Log($"found {jsonAssets.Length} levels");
             foreach (var jsonAsset in jsonAssets)
             {
                 var levelData = JsonConvert.DeserializeObject<LevelData>(jsonAsset.text);
-                
+                Debug.Log($"Added level {levelData.ID}");
                 Bootstrap.Instance.ui.levelSelect.AddLevelCard(levelData);
                 
             }
