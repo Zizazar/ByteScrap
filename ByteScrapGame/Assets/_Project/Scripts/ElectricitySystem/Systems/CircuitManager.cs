@@ -179,14 +179,14 @@ public class CircuitManager : MonoBehaviour
         };
     }
 
-    private void OnGUI()
-    {
-        GUILayout.BeginArea(new Rect(0, 0, 200, 300));
-        GUILayout.Label($"Components: {components.Count}");
-        GUILayout.Label($"Queue: {updateQueue.Count}");
-        GUILayout.Label($"Updating: {isUpdating}");
-        GUILayout.EndArea();
-    }
+    // private void OnGUI()
+    // {
+    //     GUILayout.BeginArea(new Rect(0, 0, 200, 300));
+    //     GUILayout.Label($"Components: {components.Count}");
+    //     GUILayout.Label($"Queue: {updateQueue.Count}");
+    //     GUILayout.Label($"Updating: {isUpdating}");
+    //     GUILayout.EndArea();
+    // }
 
     public Queue<CircuitComponent> GetUpdateQueue()
     {

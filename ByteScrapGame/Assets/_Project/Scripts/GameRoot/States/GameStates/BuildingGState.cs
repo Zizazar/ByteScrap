@@ -11,10 +11,13 @@ namespace _Project.Scripts.GameRoot.States.GameStates
             Bootstrap.Instance.playerController = Object.FindAnyObjectByType<PlayerController>();
             Bootstrap.Instance.playerController.Init();
             Bootstrap.Instance.ui.componentSelect.Initialize();
+            Bootstrap.Instance.ui.inGameOverlay.Open();
         }
 
         public void Exit()
         {
+            Bootstrap.Instance.ui.inGameOverlay.Close();
+            
             BuildingLevelContext buildingLevelContext = Object.FindAnyObjectByType<BuildingLevelContext>();
             buildingLevelContext.DisposeLevel();
         }

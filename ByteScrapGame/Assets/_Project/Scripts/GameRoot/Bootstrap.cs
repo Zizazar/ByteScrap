@@ -41,7 +41,7 @@ namespace _Project.Scripts.GameRoot
 
         // -----Референсы классов для подтягивания зависимостей--------
         public GameStateMachine sm_Game { get; private set; }
-        public PlayerStateMachine sm_Player { get; private set; }
+        //public PlayerStateMachine sm_Player { get; private set; }
         public GameSettings settings => settingsObject;
         public PlayerController playerController { get; set; }
         public GameInput input { get; private set; }
@@ -75,8 +75,8 @@ namespace _Project.Scripts.GameRoot
             sm_Game = GetComponent<GameStateMachine>();
             sm_Game.ChangeState(new MenuGState());
             
-            sm_Player = GetComponent<PlayerStateMachine>();
-            sm_Player.ChangeState(new MenuViewPState());
+            //sm_Player = GetComponent<PlayerStateMachine>();
+            //sm_Player.ChangeState(new MenuViewPState());
 
             
         }
@@ -104,13 +104,11 @@ namespace _Project.Scripts.GameRoot
         private void Update()
         {
             sm_Game?.Update();
-            sm_Player?.Update();
         }
 
         private void FixedUpdate()
         {
             sm_Game?.FixedUpdate();
-            sm_Player?.FixedUpdate();
         }
     }
 }
