@@ -47,13 +47,11 @@ namespace _Project.Scripts
         #endregion
         
         private Dictionary<string, RenderTexture> _cachedRenders = new ();
-
-        private int _currentImageIndex;
+        
         private bool _isRendered;
         
         public Coroutine Render()
         {
-            _currentImageIndex = 0;
             _cachedRenders.Clear();
             return StartCoroutine(CO_Render());
 
@@ -82,10 +80,6 @@ namespace _Project.Scripts
                 yield return new WaitUntil(() => objectToRender.IsDestroyed());
             }
             _isRendered = true;
-        }
-
-        private void Start()
-        { 
         }
 
         

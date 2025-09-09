@@ -1158,7 +1158,8 @@ MonoBehaviour:
   menu: {fileID: 7550781436149489732}
   levelSelect: {fileID: 4995110644834399619}
   loadingScreen: {fileID: 4431137928154288616}
-  componentSelect: {fileID: 0}
+  componentSelect: {fileID: 5365922382531625692}
+  inGameOverlay: {fileID: 1320268151330501719}
 --- !u!1 &5005030455837929070
 GameObject:
   m_ObjectHideFlags: 0
@@ -2460,6 +2461,7 @@ GameObject:
   - component: {fileID: 2793924955347169179}
   - component: {fileID: 4346173705337709068}
   - component: {fileID: 2883279780181665987}
+  - component: {fileID: 8228606084470979066}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -2550,6 +2552,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &8228606084470979066
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8683609414453153095}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1666387163529744707
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using _Project.Scripts.GameRoot.LevelContexts;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,9 +13,11 @@ namespace _Project.Scripts.UI
         [SerializeField] private GameObject buttonPrefab;
         [SerializeField] private MouseHoverHelper rootMouseHover;
         
-        private Dictionary<string, SelectButtonController> _buttons = new ();
-        private string _last_button_selection;
+        [SerializeField] private RectTransform panel;
         
+        private Dictionary<string, SelectButtonController> _buttons = new ();
+        private string _lastButtonSelection;
+        private Tweener _tweener;
         
         private CircuitManager _circuitManager;
         private BuildingSystem _buildingSystem;
@@ -59,11 +62,11 @@ namespace _Project.Scripts.UI
 
         private void SelectComponent(string componentTypeName)
         {
-            if (componentTypeName == _last_button_selection) return;
-            if (_last_button_selection != null) _buttons[_last_button_selection].Select(false);
+            if (componentTypeName == _lastButtonSelection) return;
+            if (_lastButtonSelection != null) _buttons[_lastButtonSelection].Select(false);
             var button = _buttons[componentTypeName];
             button.Select(true);
-            _last_button_selection = componentTypeName;
+            _lastButtonSelection = componentTypeName;
             _buildingSystem.SelectComponent(componentTypeName);
         }
 
@@ -71,6 +74,20 @@ namespace _Project.Scripts.UI
         {
             return rootMouseHover.MouseOver;
         }
-        
+
+        public override void Open()
+        {
+            base.Open();
+            _tweener?.Kill();
+            _tweener = panel.DOAnchorPosX(75, 0.3f);
+        }
+
+        public override void Close()
+        {
+            _tweener?.Kill();
+            _tweener = panel.DOAnchorPosX(-75, 0.3f)
+                .OnComplete(base.Close);
+            
+        }
     }
 }

@@ -140,14 +140,15 @@ public class BuildingSystem : MonoBehaviour
 
     private GameObject GetComponentPrefabByType(string typeName) =>
         Resources.Load<GameObject>($"Components/{typeName}");
-    
-    
+
+#if UNITY_EDITOR
     private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        var pos = GetMouseWorldPosition();
-        Gizmos.DrawWireSphere(pos, 0.1f);
-        var gridPos = grid.WorldToCell(pos);
-        Handles.Label(new Vector3(gridPos.x, 1, gridPos.z), gridPos.ToString());
-    }
+        {
+            Gizmos.color = Color.yellow;
+            var pos = GetMouseWorldPosition();
+            Gizmos.DrawWireSphere(pos, 0.1f);
+            var gridPos = grid.WorldToCell(pos);
+            Handles.Label(new Vector3(gridPos.x, 1, gridPos.z), gridPos.ToString());
+        }
+#endif
 }

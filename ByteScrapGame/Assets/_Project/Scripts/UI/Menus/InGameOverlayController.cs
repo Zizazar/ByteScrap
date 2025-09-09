@@ -16,6 +16,7 @@ namespace _Project.Scripts.UI
         
         [SerializeField] private List<string> messages = new();
         [SerializeField] private List<Sprite> icons = new();
+        [SerializeField] private List<Color> colors = new();
 
         private void Update()
         {
@@ -35,6 +36,9 @@ namespace _Project.Scripts.UI
         {
             statusText.text = messages[i];
             iconImage.sprite = icons[i];
+            
+            iconImage.color = colors[i];
+            statusText.color = colors[i];
         }
     }
 }

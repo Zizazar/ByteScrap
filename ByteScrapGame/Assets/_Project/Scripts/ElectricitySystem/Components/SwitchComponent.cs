@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using _Project.Scripts.Player;
+using DG.Tweening;
 using UnityEngine;
 
 namespace _Project.Scripts.ElectricitySystem.Components
@@ -8,12 +9,17 @@ namespace _Project.Scripts.ElectricitySystem.Components
     public class SwitchComponent : CircuitComponent, IInteractable
     {
         public bool isOn = true;
+    
+        [SerializeField] private Transform rotatable;
+        [SerializeField] private float onRotation;
+        [SerializeField] private float offRotation;
         
         public void OnInteract()
         {
             isOn = !isOn;
             Debug.Log($"Toggle Switch: {isOn}");
             CircuitManager.Instance.RequestCircuitUpdate();
+            UpdateVisuals();
         }
 
         public override void ReceiveSignal(Direction fromDirection, bool signal)
@@ -34,7 +40,13 @@ namespace _Project.Scripts.ElectricitySystem.Components
         protected override void SetProperties(Dictionary<string, string> properties)
         {
             isOn = bool.Parse(properties.GetValueOrDefault("isOn", "false"));
+            UpdateVisuals();
         }
 
+        private void UpdateVisuals()
+        {
+            var angle = isOn ? onRotation : offRotation;
+            rotatable.DORotate(new Vector3(0, 0, angle), 0.5f);
+        }
     }
 }

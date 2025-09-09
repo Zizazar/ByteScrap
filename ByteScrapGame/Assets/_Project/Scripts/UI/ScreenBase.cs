@@ -12,13 +12,14 @@ namespace _Project.Scripts.UI
 
         public void Init()
         {
+            Debug.Log(GetType().Name);
             _canvas = GetComponentInChildren<CanvasGroup>();
             _root = _canvas.gameObject;
             _root.SetActive(false); // выключаем по умолчанию
         }
 
-        public void Open() => _root.SetActive(true);
-        public void Close() => _root.SetActive(false);
+        public virtual void Open() => _root.SetActive(true);
+        public virtual void Close() => _root.SetActive(false);
         public bool isOpened => _root.activeSelf;
         
         public void FadeIn()
