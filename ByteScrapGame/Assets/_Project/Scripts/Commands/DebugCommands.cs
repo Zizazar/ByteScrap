@@ -1,5 +1,6 @@
 ﻿using _Project.Scripts.GameRoot;
 using _Project.Scripts.GameRoot.States.GameStates;
+using _Project.Scripts.LevelAndGoals;
 using IngameDebugConsole;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -15,7 +16,8 @@ namespace _Project.Scripts.Commands
             DebugLogConsole.AddCommand<string>("load", "Load level by id", LoadLevel);
             DebugLogConsole.AddCommand("queue", "Show components queue", ShowComponentsQueue);
             DebugLogConsole.AddCommand("menu", "Open menu", GoToMenu);
-    }
+            DebugLogConsole.AddCommand("goals", "Shows goals", ShowGoals);
+        }
 
         private void ShowComponentsQueue()
         {
@@ -54,6 +56,17 @@ namespace _Project.Scripts.Commands
         private void GoToMenu()
         {
             Bootstrap.Instance.sm_Game.ChangeState(new MenuGState());
+        }
+
+        private void ShowGoals()
+        {
+            var msg = "Goal List:\n";
+            
+            foreach (var goal in Bootstrap.Instance.goalSystem.GetGoals()) // разобраться с терянием инстанса
+            {
+                msg += $"{(goal.isCompleted ? "V" : "X")}| {goal.name} ({goal.type})\n";
+            }
+            Debug.Log(msg);
         }
     }
 }

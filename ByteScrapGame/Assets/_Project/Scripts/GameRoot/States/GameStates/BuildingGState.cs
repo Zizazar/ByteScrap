@@ -1,4 +1,5 @@
 ﻿using _Project.Scripts.GameRoot.LevelContexts;
+using _Project.Scripts.LevelAndGoals;
 using _Project.Scripts.Player;
 using UnityEngine;
 
@@ -24,6 +25,7 @@ namespace _Project.Scripts.GameRoot.States.GameStates
 
         public void Update()
         {
+            
         }
     
         public void FixedUpdate()

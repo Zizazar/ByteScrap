@@ -1,4 +1,6 @@
 ﻿using System;
+using _Project.Scripts.GameRoot;
+using _Project.Scripts.LevelAndGoals;
 using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -43,7 +45,11 @@ public class LampComponent : CircuitComponent
 
     public override void ReceiveSignal(Direction fromDirection, bool signal)
     {
-        if (signal) newState = true;
+        if (signal)
+        {
+            Bootstrap.Instance.goalSystem.TriggerComponentActivate(this);
+            newState = true;
+        }
     }
 
     public override bool GetOutput(Direction direction)

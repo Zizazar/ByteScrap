@@ -4,6 +4,7 @@ using _Project.Scripts.Commands;
 using _Project.Scripts.GameRoot.StateMacines;
 using _Project.Scripts.GameRoot.States.GameStates;
 using _Project.Scripts.GameRoot.States.PlayerStates;
+using _Project.Scripts.LevelAndGoals;
 using _Project.Scripts.Player;
 using _Project.Scripts.UI;
 using UnityEngine;
@@ -47,6 +48,7 @@ namespace _Project.Scripts.GameRoot
         public GameInput input { get; private set; }
         public DebugCommands debugCmd { get; private set; }
         public UiController ui { get; private set; }
+        public GoalSystem goalSystem { get; private set; }
         // ------------------------------------------------------------
         private void Start()
         {
@@ -68,6 +70,8 @@ namespace _Project.Scripts.GameRoot
             input = new GameInput();
             input.Enable();
 
+            goalSystem = new GoalSystem();
+            
             debugCmd = new DebugCommands();
             debugCmd.Init();
             

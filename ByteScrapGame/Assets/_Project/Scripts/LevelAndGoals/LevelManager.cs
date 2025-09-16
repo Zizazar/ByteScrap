@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using _Project.Scripts.ElectricitySystem;
+using _Project.Scripts.LevelAndGoals;
 using Newtonsoft.Json;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class LevelData
     public string[] avalibleComponents;
     public List<GridCellData> initialGridCells;
     public bool isCompleted;
+    public List<Goal> goals;
 }
 
 public class LevelManager : MonoBehaviour
