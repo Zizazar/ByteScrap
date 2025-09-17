@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using _Project.Scripts.GameRoot;
+using _Project.Scripts.LevelAndGoals;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -18,6 +20,7 @@ namespace _Project.Scripts.ElectricitySystem
     public class SaveData
     {
         public List<GridCellData> gridData = new();
+        public List<Goal> goals = new();
     }
 
     [Serializable]
@@ -40,43 +43,14 @@ namespace _Project.Scripts.ElectricitySystem
 
         [SerializeField] private BuildingSystem buildingSystem;
 
-        private string _lastJson;
-
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                _lastJson = SaveToJson();
-            }
-
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                LoadFromJson(_lastJson);
-            }
-        }
-
         public void LoadFromJson(string json)
         {
             var saveData = JsonConvert.DeserializeObject<SaveData>(json);
             
-            LoadGrid(saveData.gridData);
+            buildingSystem.LoadGrid(saveData.gridData);
+            Bootstrap.Instance.goalSystem.LoadGoals(saveData.goals);
         
             Debug.Log($"Схема загружена: \n {json}");
-        }
-
-        public void LoadGrid(List<GridCellData> gridData)
-        {
-            foreach (var data in gridData)
-            {
-                if (buildingSystem.circuitManager.IsPositionOccupied(new Vector2Int(data.x, data.y)))
-                {
-                    Debug.LogError($"Не удалось поставить компонент {data.component.componentType}({data.component.componentID}) в ({data.x}, {data.y})");
-                    return;
-                }
-                buildingSystem.PlaceComponentByType(data.component.componentType, data);
-            }
-            buildingSystem.circuitManager.RequestCircuitUpdate();
         }
 
         public string SaveToJson()
@@ -92,6 +66,7 @@ namespace _Project.Scripts.ElectricitySystem
                     component = item.Value.ToComponentData()
                 });
             }
+            saveData.goals = Bootstrap.Instance.goalSystem.GetGoals(); // Обновляем цели
 
             string json = JsonConvert.SerializeObject(saveData, Formatting.Indented, 
                 new JsonSerializerSettings

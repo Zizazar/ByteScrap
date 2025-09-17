@@ -34,5 +34,23 @@
         }
       }
     }
+  ],
+  "goals": [
+    {
+      "type": "ComponentPlace",
+      "name": "Поставь источник питания",
+      "isComplete": false,
+      "data": {
+        "ComponentType": "BatteryComponent"
+      }
+    },
+    {
+      "type": "ComponentActivate",
+      "name": "Активируй лампу",
+      "isComplete": false,
+      "data": {
+        "ComponentType": "LampComponent"
+      }
+    }
   ]
 }

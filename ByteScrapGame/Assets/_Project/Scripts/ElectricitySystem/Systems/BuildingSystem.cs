@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using _Project.Scripts.ElectricitySystem;
+using _Project.Scripts.GameRoot;
+using _Project.Scripts.LevelAndGoals;
 using DG.Tweening;
 using Unity.Mathematics;
 using UnityEditor;
@@ -49,6 +51,8 @@ public class BuildingSystem : MonoBehaviour
             CircuitComponent component = componentToPlace.GetComponent<CircuitComponent>();
             component.Initialize(gridPos.x, gridPos.y);
             circuitManager.RegisterComponent(component, gridPos.x, gridPos.y);
+            
+            Bootstrap.Instance.goalSystem.TriggerComponentPlace(component);
 
             componentToPlace = null;
             
@@ -140,6 +144,20 @@ public class BuildingSystem : MonoBehaviour
 
     private GameObject GetComponentPrefabByType(string typeName) =>
         Resources.Load<GameObject>($"Components/{typeName}");
+    
+    public void LoadGrid(List<GridCellData> gridData)
+    {
+        foreach (var data in gridData)
+        {
+            if (circuitManager.IsPositionOccupied(new Vector2Int(data.x, data.y)))
+            {
+                Debug.LogError($"Не удалось поставить компонент {data.component.componentType}({data.component.componentID}) в ({data.x}, {data.y})");
+                return;
+            }
+            PlaceComponentByType(data.component.componentType, data);
+        }
+        circuitManager.RequestCircuitUpdate();
+    }
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()

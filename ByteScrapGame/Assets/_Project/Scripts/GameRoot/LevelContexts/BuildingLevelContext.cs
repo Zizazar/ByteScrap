@@ -1,5 +1,6 @@
 ﻿using _Project.Scripts.ElectricitySystem;
 using _Project.Scripts.GameRoot.States.GameStates;
+using _Project.Scripts.LevelAndGoals;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -28,16 +29,21 @@ namespace _Project.Scripts.GameRoot.LevelContexts
             }
             else
             {
-                saveSystem.LoadGrid(currentLevel.initialGridCells);
+                buildingSystem.LoadGrid(currentLevel.initialGridCells);
+                Bootstrap.Instance.goalSystem.LoadGoals(levelData.goals);
             }
             
             buildingSystem.enabled = true;
+            
+            
+            
             base.InitLevel(levelData);
         }
         
 
         public override void DisposeLevel()
         {
+            currentLevel.goals = Bootstrap.Instance.goalSystem.GetGoals(); // Обновляем цели
             saveSystem.SaveToFile(currentLevel.ID);
             circuitManager.ClearAllComponents();
             base.DisposeLevel();
