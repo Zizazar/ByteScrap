@@ -1,6 +1,7 @@
 ﻿using _Project.Scripts.ElectricitySystem;
 using _Project.Scripts.GameRoot.States.GameStates;
 using _Project.Scripts.LevelAndGoals;
+using _Project.Scripts.UI;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -31,6 +32,7 @@ namespace _Project.Scripts.GameRoot.LevelContexts
             {
                 buildingSystem.LoadGrid(currentLevel.initialGridCells);
                 Bootstrap.Instance.goalSystem.LoadGoals(levelData.goals);
+                
             }
             
             buildingSystem.enabled = true;
