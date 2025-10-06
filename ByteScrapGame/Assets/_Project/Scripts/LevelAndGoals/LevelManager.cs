@@ -13,7 +13,6 @@ public class LevelData
     public int difficulty;
     public string[] avalibleComponents;
     public List<GridCellData> initialGridCells;
-    public bool isCompleted;
     public List<Goal> goals;
 }
 

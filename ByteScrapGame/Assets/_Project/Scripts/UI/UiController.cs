@@ -11,6 +11,7 @@ namespace _Project.Scripts.UI
         public LoadingScreenController loadingScreen;
         public ComponentSelectUiController componentSelect;
         public InGameOverlayController inGameOverlay;
+        public SettingsUiController settings;
         
         
         public void Init()
@@ -20,6 +21,7 @@ namespace _Project.Scripts.UI
             loadingScreen.Init();
             componentSelect.Init();
             inGameOverlay.Init();
+            settings.Init();
         }
     }
 }

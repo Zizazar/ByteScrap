@@ -21,6 +21,7 @@ namespace _Project.Scripts.ElectricitySystem
     {
         public List<GridCellData> gridData = new();
         public List<Goal> goals = new();
+        public bool isCompleted;
     }
 
     [Serializable]
@@ -33,7 +34,7 @@ namespace _Project.Scripts.ElectricitySystem
     
     public class SaveSystem : MonoBehaviour
     {
-        private string GetSavePath(string id)
+        public static string GetSavePath(string id)
         {
             var saveDirectory = Path.Combine(Application.persistentDataPath, "Saves");
             if (!Directory.Exists(saveDirectory)) 
@@ -67,7 +68,7 @@ namespace _Project.Scripts.ElectricitySystem
                 });
             }
             saveData.goals = Bootstrap.Instance.goalSystem.GetGoals(); // Обновляем цели
-
+            saveData.isCompleted = Bootstrap.Instance.goalSystem.IsAllGoalsCompleted();
             string json = JsonConvert.SerializeObject(saveData, Formatting.Indented, 
                 new JsonSerializerSettings
                 {
@@ -78,10 +79,8 @@ namespace _Project.Scripts.ElectricitySystem
             return json;
         }
 
-        public bool SaveFileExist(string id)
-        {
-            return File.Exists(GetSavePath(id));
-        }
+        public static bool SaveFileExist(string id) => File.Exists(GetSavePath(id));
+        
         
         public void LoadFromSaveFile(string id)
         {

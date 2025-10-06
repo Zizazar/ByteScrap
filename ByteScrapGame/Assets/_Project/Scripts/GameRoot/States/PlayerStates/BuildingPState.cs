@@ -23,7 +23,7 @@ namespace _Project.Scripts.GameRoot.States.PlayerStates
             
             Bootstrap.Instance.input.Building.Place.performed += PlaceComponentAction;
             Bootstrap.Instance.input.Building.Remove.performed += RemoveComponentAction;
-            
+
             Bootstrap.Instance.ui.componentSelect.Open();
         }
 

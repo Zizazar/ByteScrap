@@ -14,39 +14,40 @@ namespace _Project.Scripts.GameRoot.LevelContexts
         public CircuitManager circuitManager;
         public SaveSystem saveSystem;
         
-        public LevelData currentLevel;
+        private string _currentLevelID;
         
-        public override void InitLevel(LevelData levelData)
+        public override void InitLevel(string id, SaveTypes saveType)
         {
+            _currentLevelID = id;
+            
             Bootstrap.Instance.sm_Game.ChangeState(new BuildingGState());
             
-            currentLevel = levelData;
-            buildingSystem.avalibleComponents = currentLevel.avalibleComponents;
 
             // Загружаем сейв из файла если он есть
-            if (saveSystem.SaveFileExist(levelData.ID))
+            if (SaveSystem.SaveFileExist(id))
             {
-                saveSystem.LoadFromSaveFile(levelData.ID);
+                saveSystem.LoadFromSaveFile(id);
             }
             else
             {
-                buildingSystem.LoadGrid(currentLevel.initialGridCells);
+                var defaultLevelJson = Resources.Load<TextAsset>($"Levels/{id}");
+                var levelData = JsonConvert.DeserializeObject<LevelData>(defaultLevelJson.text);
+                
+                buildingSystem.LoadGrid(levelData.initialGridCells);
                 Bootstrap.Instance.goalSystem.LoadGoals(levelData.goals);
                 
             }
             
+            Bootstrap.Instance.ui.inGameOverlay.goalListController.Init(); 
+            
             buildingSystem.enabled = true;
-            
-            
-            
-            base.InitLevel(levelData);
         }
         
 
         public override void DisposeLevel()
         {
-            currentLevel.goals = Bootstrap.Instance.goalSystem.GetGoals(); // Обновляем цели
-            saveSystem.SaveToFile(currentLevel.ID);
+            // Обновляем цели
+            saveSystem.SaveToFile(_currentLevelID);
             circuitManager.ClearAllComponents();
             base.DisposeLevel();
         }

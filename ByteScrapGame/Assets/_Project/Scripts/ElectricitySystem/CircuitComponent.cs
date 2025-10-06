@@ -67,7 +67,7 @@ public abstract class CircuitComponent : MonoBehaviour
         SetProperties(data.properties);
     }
 
-    protected virtual Dictionary<string, string> GetProperties() => new();
+    public virtual Dictionary<string, string> GetProperties() => new();
 
     protected virtual void SetProperties(Dictionary<string, string> properties)
     {

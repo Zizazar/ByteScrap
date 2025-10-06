@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using _Project.Scripts.ElectricitySystem;
-using UnityEditor;
+using _Project.Scripts.GameRoot;
+using _Project.Scripts.GameRoot.States.GameStates;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace _Project.Scripts.LevelAndGoals
 {
@@ -14,16 +15,24 @@ namespace _Project.Scripts.LevelAndGoals
         public bool isCompleted;
         public string name;
         public Dictionary<string, string> data; // componentType, progress 
+
+        public override string ToString()
+        {
+            return $"{type}: {name} \n {data}";
+        }
     }
     
     
     public class GoalSystem
     {
+        public UnityEvent OnCompleted = new();
         
         private List<Goal> _goals = new();
 
         
         public List<Goal> GetGoals() => _goals;
+        
+        public bool IsAllGoalsCompleted() => _goals.All(goal => goal.isCompleted);
         
         public void LoadGoals(List<Goal> goals) => _goals = new List<Goal>(goals);
 
@@ -31,6 +40,14 @@ namespace _Project.Scripts.LevelAndGoals
         {
             if (goal == null) return;
             goal.isCompleted = true;
+            OnCompleted.Invoke();
+            AutoExitCheck();
+        }
+
+        private void AutoExitCheck()
+        {
+            if (IsAllGoalsCompleted() && Bootstrap.Instance.gameSettings.levelAutoExit)
+                Bootstrap.Instance.sm_Game.ChangeState(new MenuGState());
         }
 
 
@@ -48,6 +65,20 @@ namespace _Project.Scripts.LevelAndGoals
             CompleteGoal(_goals.FirstOrDefault(goal =>
                 goal.type == "ComponentActivate" && 
                 goal.data.GetValueOrDefault("ComponentType") == component.ComponentType &&
+                !goal.isCompleted
+            ));
+        }
+
+        public void TriggerComponentChangeProperty(CircuitComponent component)
+        {
+            Debug.Log(_goals[1]);
+            var props = component.GetProperties();
+            CompleteGoal(_goals.FirstOrDefault(goal =>
+                goal.type == "ComponentProperties" && 
+                goal.data.GetValueOrDefault("ComponentType") == component.ComponentType &&
+                props.All(p => 
+                    goal.data.TryGetValue(p.Key, out string value) && value == p.Value
+                    ) &&
                 !goal.isCompleted
             ));
         }

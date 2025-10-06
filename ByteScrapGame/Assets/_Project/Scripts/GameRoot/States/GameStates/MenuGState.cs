@@ -12,7 +12,7 @@ namespace _Project.Scripts.GameRoot.States.GameStates
             SceneManager.LoadScene("Menu");
             Bootstrap.Instance.ui.menu.Open();
             Bootstrap.Instance.playerController?.statemachine?.ChangeState(new MenuViewPState());
-            Bootstrap.Instance.sm_Game.ChangeState(new LevelSelectGState());
+            Bootstrap.Instance.sm_Game.ChangeState(new LevelSelectGState()); // TODO: сделать только при активации по кнопке
         }
 
         public void Exit()

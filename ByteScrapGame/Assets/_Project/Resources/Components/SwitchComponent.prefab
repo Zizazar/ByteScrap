@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 0}
-  isOn: 1
+  isOn: 0
   rotatable: {fileID: 6517223942404475348}
   onRotation: 4.28
   offRotation: -11.8

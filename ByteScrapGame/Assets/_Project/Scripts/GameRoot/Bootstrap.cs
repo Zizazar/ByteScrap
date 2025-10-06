@@ -1,15 +1,12 @@
-using System;
-using System.Collections;
 using _Project.Scripts.Commands;
 using _Project.Scripts.GameRoot.StateMacines;
 using _Project.Scripts.GameRoot.States.GameStates;
-using _Project.Scripts.GameRoot.States.PlayerStates;
 using _Project.Scripts.LevelAndGoals;
 using _Project.Scripts.Player;
 using _Project.Scripts.UI;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using Random = UnityEngine.Random;
+
+using UnityEngine.UI;
 
 namespace _Project.Scripts.GameRoot
 {
@@ -38,17 +35,18 @@ namespace _Project.Scripts.GameRoot
         }
         #endregion
         
-        [SerializeField] private GameSettings settingsObject;
+        [SerializeField]
+        private GameObject playerPrefab;
 
         // -----Референсы классов для подтягивания зависимостей--------
         public GameStateMachine sm_Game { get; private set; }
-        //public PlayerStateMachine sm_Player { get; private set; }
-        public GameSettings settings => settingsObject;
         public PlayerController playerController { get; set; }
         public GameInput input { get; private set; }
         public DebugCommands debugCmd { get; private set; }
         public UiController ui { get; private set; }
         public GoalSystem goalSystem { get; private set; }
+        
+        public GameSettings gameSettings { get; private set; }
         // ------------------------------------------------------------
         private void Start()
         {
@@ -64,13 +62,18 @@ namespace _Project.Scripts.GameRoot
             
             // ---Иницилизация основной логики---
             
+            
+            gameSettings = new GameSettings();
+            gameSettings.FromPlayerPrefs();
+            gameSettings.Apply();
+            
+            goalSystem = new GoalSystem();
+            
             ui = GetComponentInChildren<UiController>(); // UI должен быть в BOOTSTRAP
             ui.Init();
             
             input = new GameInput();
             input.Enable();
-
-            goalSystem = new GoalSystem();
             
             debugCmd = new DebugCommands();
             debugCmd.Init();
@@ -95,10 +98,7 @@ namespace _Project.Scripts.GameRoot
                 foundPlayer.Init();
                 return foundPlayer;
             }
-            var spawnedPlayer = Instantiate(
-                settings.player.playerPrefab, 
-                settings.player.spawnPos, 
-                settings.player.spawnRot
+            var spawnedPlayer = Instantiate(playerPrefab, transform
                 ).GetComponent<PlayerController>();
             spawnedPlayer.Init();
             playerController = spawnedPlayer;

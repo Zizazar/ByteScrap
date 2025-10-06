@@ -11,12 +11,20 @@ namespace _Project.Scripts.UI
     public class InGameOverlayController : ScreenBase
     {
         
+        [SerializeField] public GoalListController goalListController;
+        
         [SerializeField] private TMP_Text statusText;
         [SerializeField] private Image iconImage;
         
         [SerializeField] private List<string> messages = new();
         [SerializeField] private List<Sprite> icons = new();
         [SerializeField] private List<Color> colors = new();
+
+        public override void Init()
+        {
+            base.Init();
+            goalListController.Init();
+        }
 
         private void Update()
         {
@@ -40,5 +48,7 @@ namespace _Project.Scripts.UI
             iconImage.color = colors[i];
             statusText.color = colors[i];
         }
+
+        
     }
 }
