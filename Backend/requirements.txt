@@ -1,0 +1,7 @@
+FastAPI
+Uvicorn
+SQLModel
+PyJwt
+python-dotenv
+psycopg2
+passlib[bcrypt]
