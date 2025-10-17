@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from unittest.mock import Base
 from pydantic import BaseModel
 from sqlmodel import Field
@@ -8,8 +8,8 @@ from app.models.base_models import WorkBase
 
 class WorkUpload(BaseModel):
     name: str
-    description: str | None
-    image: str | None
+    description: Optional[str] = None
+    image: Optional[str] = None
     data: str
 
 class WorkInfo(WorkBase):

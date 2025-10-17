@@ -6,7 +6,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql+psycopg2://postgres:example@localhost:5432/byte_scrap
+      - DATABASE_URL=postgresql+psycopg2://postgres:example@db:5432/byte_scrap
     depends_on:
       - db
 

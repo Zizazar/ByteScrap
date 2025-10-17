@@ -5,3 +5,4 @@ PyJwt
 python-dotenv
 psycopg2
 passlib[bcrypt]
+bcrypt==4.3.0 # https://stackoverflow.com/questions/79776559/passlib-bcrypt-not-working-when-deployed-to-render-valueerror-password-cannot
