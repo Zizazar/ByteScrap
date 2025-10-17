@@ -72,7 +72,8 @@ namespace _Project.Scripts.ElectricitySystem
             string json = JsonConvert.SerializeObject(saveData, Formatting.Indented, 
                 new JsonSerializerSettings
                 {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    Formatting = Formatting.None
                 });
         
             Debug.Log($"Схема сохранена: \n {json}");

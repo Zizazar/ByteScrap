@@ -49,11 +49,13 @@ namespace _Project.Scripts.GameRoot.States.GameStates
             if (asyncOperation == null) yield break;
             
             yield return new WaitUntil(() => asyncOperation.isDone);
-            yield return new WaitForSeconds(2);
+            
             yield return ComponentsRenderer.Instance.Render();
             
             var levelContext = Object.FindAnyObjectByType<LevelContext>();
-            levelContext!.InitLevel(_levelID, _saveType);
+            yield return Bootstrap.Instance.StartCoroutine(
+                levelContext!.InitLevel(_levelID, _saveType)
+            );
         }
     }
 }

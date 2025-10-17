@@ -12,6 +12,8 @@ namespace _Project.Scripts.UI
         public ComponentSelectUiController componentSelect;
         public InGameOverlayController inGameOverlay;
         public SettingsUiController settings;
+        public AuthUiController auth;
+        public PopupUiController popup;
         
         
         public void Init()
@@ -22,6 +24,8 @@ namespace _Project.Scripts.UI
             componentSelect.Init();
             inGameOverlay.Init();
             settings.Init();
+            auth.Init();
+            popup.Init();
         }
     }
 }

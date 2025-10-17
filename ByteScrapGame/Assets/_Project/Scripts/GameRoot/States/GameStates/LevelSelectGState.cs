@@ -8,6 +8,7 @@ namespace _Project.Scripts.GameRoot.States.GameStates
         public void Enter()
         {
             Bootstrap.Instance.ui.levelSelect.Open();
+            Bootstrap.Instance.ui.levelSelect.FetchLevels();
             Bootstrap.Instance.ui.levelSelect.UpdateLevelsList();
         }
 

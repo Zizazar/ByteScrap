@@ -1,4 +1,6 @@
 using _Project.Scripts.Commands;
+using _Project.Scripts.ElectricitySystem.Systems;
+using _Project.Scripts.GameRoot.LevelContexts;
 using _Project.Scripts.GameRoot.StateMacines;
 using _Project.Scripts.GameRoot.States.GameStates;
 using _Project.Scripts.LevelAndGoals;
@@ -47,6 +49,8 @@ namespace _Project.Scripts.GameRoot
         public GoalSystem goalSystem { get; private set; }
         
         public GameSettings gameSettings { get; private set; }
+        
+        public GameApi api { get; private set; }
         // ------------------------------------------------------------
         private void Start()
         {
@@ -62,6 +66,7 @@ namespace _Project.Scripts.GameRoot
             
             // ---Иницилизация основной логики---
             
+            api = new GameApi();
             
             gameSettings = new GameSettings();
             gameSettings.FromPlayerPrefs();
@@ -113,6 +118,14 @@ namespace _Project.Scripts.GameRoot
         private void FixedUpdate()
         {
             sm_Game?.FixedUpdate();
+        }
+
+
+        public void CloseLevel()
+        {
+            BuildingLevelContext buildingLevelContext = FindAnyObjectByType<BuildingLevelContext>();
+            if (!buildingLevelContext) return; 
+            StartCoroutine(buildingLevelContext.DisposeLevel());
         }
     }
 }

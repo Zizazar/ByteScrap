@@ -44,7 +44,7 @@ namespace _Project.Scripts.UI
 
         private void OnExitButtonClicked()
         {
-            Bootstrap.Instance.sm_Game.ChangeState(new MenuGState());
+            Bootstrap.Instance.CloseLevel();
             exitButton.gameObject.SetActive(false);
         }
 

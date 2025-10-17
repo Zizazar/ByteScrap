@@ -18,9 +18,6 @@ namespace _Project.Scripts.GameRoot.States.GameStates
         public void Exit()
         {
             Bootstrap.Instance.ui.inGameOverlay.Close();
-            
-            BuildingLevelContext buildingLevelContext = Object.FindAnyObjectByType<BuildingLevelContext>();
-            buildingLevelContext.DisposeLevel();
         }
 
         public void Update()

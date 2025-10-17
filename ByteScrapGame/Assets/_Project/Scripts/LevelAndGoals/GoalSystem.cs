@@ -34,7 +34,10 @@ namespace _Project.Scripts.LevelAndGoals
         
         public bool IsAllGoalsCompleted() => _goals.All(goal => goal.isCompleted);
         
-        public void LoadGoals(List<Goal> goals) => _goals = new List<Goal>(goals);
+        public void LoadGoals(List<Goal> goals)
+        {
+            if (goals != null) _goals = new List<Goal>(goals);
+        }
 
         public void CompleteGoal(Goal goal)
         {
@@ -47,7 +50,7 @@ namespace _Project.Scripts.LevelAndGoals
         private void AutoExitCheck()
         {
             if (IsAllGoalsCompleted() && Bootstrap.Instance.gameSettings.levelAutoExit)
-                Bootstrap.Instance.sm_Game.ChangeState(new MenuGState());
+                Bootstrap.Instance.CloseLevel();
         }
 
 

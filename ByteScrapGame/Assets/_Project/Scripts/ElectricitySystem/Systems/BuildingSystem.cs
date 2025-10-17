@@ -147,15 +147,19 @@ public class BuildingSystem : MonoBehaviour
     
     public void LoadGrid(List<GridCellData> gridData)
     {
-        foreach (var data in gridData)
-        {
-            if (circuitManager.IsPositionOccupied(new Vector2Int(data.x, data.y)))
+        if (gridData != null)
+            foreach (var data in gridData)
             {
-                Debug.LogError($"Не удалось поставить компонент {data.component.componentType}({data.component.componentID}) в ({data.x}, {data.y})");
-                return;
+                if (circuitManager.IsPositionOccupied(new Vector2Int(data.x, data.y)))
+                {
+                    Debug.LogError(
+                        $"Не удалось поставить компонент {data.component.componentType}({data.component.componentID}) в ({data.x}, {data.y})");
+                    return;
+                }
+
+                PlaceComponentByType(data.component.componentType, data);
             }
-            PlaceComponentByType(data.component.componentType, data);
-        }
+
         circuitManager.RequestCircuitUpdate();
     }
 

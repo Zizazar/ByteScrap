@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using _Project.Scripts.ElectricitySystem;
+using _Project.Scripts.ElectricitySystem.Systems.Responses;
 using _Project.Scripts.GameRoot;
+using _Project.Scripts.GameRoot.States.GameStates;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace _Project.Scripts.UI
 {
@@ -12,13 +16,41 @@ namespace _Project.Scripts.UI
         [SerializeField] private GameObject CardPrefab;
         [SerializeField] private Transform CardContainer;
         
+        [SerializeField] private Button backButton;
+        
         private List<GameObject> Cards = new();
+        
+        private List<SaveDataResponse> cloudSaves = new();
+
+        public override void Init()
+        {
+            backButton.onClick.AddListener(() =>
+                Bootstrap.Instance.sm_Game.ChangeState(new MenuGState())
+            );
+            base.Init();
+        }
+
+        public void FetchLevels()
+        {
+            Bootstrap.Instance.api.GetSaves((code, json) =>
+            {
+                var data = JsonConvert.DeserializeObject<List<SaveDataResponse>>(json);
+                cloudSaves = data;
+                UpdateLevelsList();
+            }, (code, json) =>
+            {
+                cloudSaves = new();
+                UpdateLevelsList();
+            });
+        }
+        
 
         public void UpdateLevelsList()
         {
             ClearLevelCards();
             
             var jsonAssets = Resources.LoadAll<TextAsset>("Levels");
+
 
             Debug.Log($"found {jsonAssets.Length} levels");
             foreach (var jsonAsset in jsonAssets)
@@ -32,7 +64,10 @@ namespace _Project.Scripts.UI
                 levelButtonData.levelName = levelData.name;
                 levelButtonData.description = levelData.description;
                 
-                if (SaveSystem.SaveFileExist(levelData.ID))
+                if (cloudSaves.Exists(response => response.name == levelData.ID)) // TODO: Проверка на облачные сохранения
+                {
+                    levelButtonData.saveType = SaveTypes.CLOUD;
+                } else if (SaveSystem.SaveFileExist(levelData.ID))
                 {
                     var localJson = File.ReadAllText(SaveSystem.GetSavePath(levelData.ID));
                     levelButtonData.saveType = SaveTypes.LOCAL;
@@ -40,21 +75,12 @@ namespace _Project.Scripts.UI
                     
                     levelButtonData.isCompleted = localLevel.isCompleted;
                 }
-                else if (false) // TODO: Проверка на облачные сохранения
-                {
-                    levelButtonData.saveType = SaveTypes.CLOUD;
-                }
                 else 
                 {
                     levelButtonData.saveType = SaveTypes.NONE;
                 }
-                    
-                
-                
                 AddLevelCard(levelButtonData);
-                
             }
-            
         }
         
         

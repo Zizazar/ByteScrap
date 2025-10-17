@@ -1,0 +1,43 @@
+{
+	"ID": "lvl3",
+	"name": "Третий",
+	"description":"",
+	"difficulty": 1,
+	"avalibleComponents": [],
+	"initialGridCells": [],
+  "goals": [
+    {
+      "type": "ComponentPlace",
+      "name": "Поставь источник питания",
+      "isComplete": false,
+      "data": {
+        "ComponentType": "BatteryComponent"
+      }
+    },
+    {
+      "type": "ComponentPlace",
+      "name": "Поставь переключатель",
+      "isComplete": false,
+      "data": {
+        "ComponentType": "SwitchComponent"
+      }
+    },
+    {
+      "type": "ComponentProperties",
+      "name": "Активируй переключатель",
+      "isComplete": false,
+      "data": {
+        "ComponentType": "SwitchComponent",
+        "isOn": "True"
+      }
+    },
+    {
+      "type": "ComponentActivate",
+      "name": "Активируй лампу",
+      "isComplete": false,
+      "data": {
+        "ComponentType": "LampComponent"
+      }
+    }
+  ]
+}
