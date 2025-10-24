@@ -15,6 +15,8 @@ namespace _Project.Scripts.UI
         
         [SerializeField] private  Button selectLevelButton;
         [SerializeField] private  Button exitButton;
+        [SerializeField] private  Button loginButton;
+        [SerializeField] private  Button registerButton;
         
         [SerializeField] private TMP_Text usernameText;
 
@@ -36,7 +38,8 @@ namespace _Project.Scripts.UI
             
             selectLevelButton.onClick.AddListener(SelectLevel);
             exitButton.onClick.AddListener(Application.Quit);
-
+            loginButton.onClick.AddListener(OpenLoginMenu);
+            registerButton.onClick.AddListener(OpenRegMenu);
         }
 
         public override void Open()
@@ -53,17 +56,45 @@ namespace _Project.Scripts.UI
             //Bootstrap.Instance.ui.open
         }
 
-        private void UpdateUserInfo()
+        private void OpenLoginMenu()
+        {
+            Bootstrap.Instance.ui.auth.Show(false);
+        }
+        private void OpenRegMenu()
+        {
+            Bootstrap.Instance.ui.auth.Show(true);
+        }
+
+        private void SetAuthButtonsActive(bool isActive)
+        {
+            loginButton.gameObject.SetActive(isActive);
+            registerButton.gameObject.SetActive(isActive);
+        }
+
+        public void UpdateUserInfo()
         {
             Bootstrap.Instance.api.GetCurrentUser((code, json) =>
                 {
                     var data = new UserMetaResponse().FromJson(json);
                     usernameText.text = usernamePrefix + data.name;
+                    SetAuthButtonsActive(false);
                 }, (code, msg) =>
             {
-                usernameText.text = (code == 0) ? offlineError : usernameError;
+                if (code == 0)
+                {
+                    usernameText.text = offlineError;
+                    SetAuthButtonsActive(false);
+                }
+                else
+                {
+                    usernameText.text = usernameError;
+                    SetAuthButtonsActive(true);
+                }
+                
             });
         }
+        
+        
         
         
     }

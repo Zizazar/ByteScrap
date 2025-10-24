@@ -12,6 +12,7 @@ namespace _Project.Scripts.UI.Screens
         
         public void Show(string header, string msg, UnityAction onClose = null)
         {
+            Open();
             headerText.text = header;
             messageText.text = msg;
             okButton.onClick.AddListener(() => onClose?.Invoke());

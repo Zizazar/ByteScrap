@@ -34,6 +34,7 @@ namespace _Project.Scripts.GameRoot.States.PlayerStates
             Bootstrap.Instance.input.Building.Remove.performed -= RemoveComponentAction;
             
             Bootstrap.Instance.ui.componentSelect.Close();
+            _buildingSystem.RemoveHologram();
         }
 
         public void Update()

@@ -107,7 +107,7 @@ namespace _Project.Scripts.ElectricitySystem.Systems
             return Get(endpoint, onSuccess, onError, headers);
         }
 
-        private void ProcessAuth(long code, string token)
+        private void ProcessAuth(string token)
         {
             Debug.Log("[HTTP API] Token saved \n" + token);
             SaveToken(token);
@@ -120,7 +120,11 @@ namespace _Project.Scripts.ElectricitySystem.Systems
         {
             var data = new LoginCreds(username, password);
             Bootstrap.Instance.StartCoroutine(
-                Post("users/login", data, ProcessAuth, onError)
+                Post("users/login", data, (c,token)=>
+                {
+                    ProcessAuth(token);
+                    onSuccess?.Invoke(c,token);
+                }, onError)
             );
         }
 
@@ -129,7 +133,11 @@ namespace _Project.Scripts.ElectricitySystem.Systems
         {
             var data = new LoginCreds(username, password);
             Bootstrap.Instance.StartCoroutine(
-                Post("users/register", data, ProcessAuth, onError)
+                Post("users/register", data, (c,token)=>
+                {
+                    ProcessAuth(token);
+                    onSuccess?.Invoke(c,token);
+                }, onError)
             );
         }
         

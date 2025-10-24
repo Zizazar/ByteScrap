@@ -1,0 +1,9 @@
+{
+	"ID": "creative",
+	"name": "Творческий режим",
+	"description":"",
+	"difficulty": 0,
+	"avalibleComponents": [],
+	"initialGridCells": [],
+    "goals": null
+}

@@ -32,9 +32,15 @@ namespace _Project.Scripts.Commands
             DebugLogConsole.AddCommand("token", "Get token of current user", GetToken);
             DebugLogConsole.AddCommand("getcurrentuser", "Get meta of current user", GetCurrentUser);
             DebugLogConsole.AddCommand<string[]>("apiurl", "Set / get api url", ApiUrl);
+            DebugLogConsole.AddCommand("logout", "Logout", Logout);
             
         }
-        
+
+        private void Logout()
+        {
+            Bootstrap.Instance.api.Logout();
+        }
+
         private void ApiUrl(string[] args)
         {
             switch (args[0].ToLower())

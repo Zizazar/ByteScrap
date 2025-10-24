@@ -57,6 +57,8 @@ public class BuildingSystem : MonoBehaviour
             componentToPlace = null;
             
             circuitManager.RequestCircuitUpdate();
+            
+            SelectComponent(component.ComponentType);
         }
 
     public void TryRemoveComponent()
@@ -79,11 +81,16 @@ public class BuildingSystem : MonoBehaviour
         circuitManager.RequestCircuitUpdate();
     }
 
-    public void RemoveHologram()
+    public void RemoveHologram(bool withComponent = false)
     {
         if (!componentToPlace) return;
         Destroy(componentToPlaceHologram);
         componentToPlaceHologram = null;
+        if (withComponent)
+        {
+            Destroy(componentToPlace);
+            componentToPlace = null;
+        }
     }
 
     private Vector3 GetMouseWorldPosition()
@@ -118,6 +125,7 @@ public class BuildingSystem : MonoBehaviour
         componentToPlaceHologram = componentToPlace.GetComponent<HologramEffect>();
         componentToPlaceHologram.ActivateHologramEffect();
         Debug.Log($"Selected component: {componentToPlace.name}");
+        componentToPlaceHologram.SetValidState(!circuitManager.IsPositionOccupied(GetGridPos()));
     }
 
     public void PlaceComponentByType(string typeName, GridCellData data)
@@ -139,7 +147,7 @@ public class BuildingSystem : MonoBehaviour
         comp.FromComponentData(data.component);
         
         circuitManager.RegisterComponent(comp, data.x, data.y);
-        
+
     }
 
     private GameObject GetComponentPrefabByType(string typeName) =>
