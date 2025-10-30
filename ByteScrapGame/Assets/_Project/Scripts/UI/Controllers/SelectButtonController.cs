@@ -1,10 +1,12 @@
 ﻿using System;
+using _Project.Scripts.GameRoot;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace _Project.Scripts.UI
 {
-    public class SelectButtonController : MonoBehaviour
+    public class SelectButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         public Button button;
         public RawImage rawImage;
@@ -23,6 +25,16 @@ namespace _Project.Scripts.UI
         public void Select(bool state)
         {
             selectVisual.SetActive(state);
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            Bootstrap.Instance.ui.hint.Show(componentTypeName);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            Bootstrap.Instance.ui.hint.Hide();
         }
     }
 }

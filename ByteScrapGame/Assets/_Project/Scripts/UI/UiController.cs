@@ -14,6 +14,7 @@ namespace _Project.Scripts.UI
         public SettingsUiController settings;
         public AuthUiController auth;
         public PopupUiController popup;
+        public HintSystem hint;
         
         
         public void Init()
