@@ -2,7 +2,8 @@ version: '3.8'
 
 services:
   app:
-    build: .
+    #build: .
+    image: ghcr.io/Zizazar/byte_scrap_backend
     ports:
       - "8000:8000"
     environment:
