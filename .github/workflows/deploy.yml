@@ -20,6 +20,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with: # https://github.com/actions/checkout/issues/483
+          sparse-checkout: 'Backend/'
+          sparse-checkout-cone-mode: false
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -44,7 +47,7 @@ jobs:
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
-          context: .
+          context: /Backend
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
