@@ -1,4 +1,4 @@
-name: Actions 😎
+name: Build Unity project
 
 on: 
   workflow_dispatch:
@@ -17,6 +17,8 @@ on:
   push: 
     branches:
       - master
+    paths:
+      - 'ByteScrapGame/**'
 
     
 
@@ -36,7 +38,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: Library
-          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          key: Library-${{ hashFiles('ByteScrapGame/Assets/**', 'ByteScrapGame/Packages/**', 'ByteScrapGame/ProjectSettings/**') }}
           restore-keys: |
             Library-
 
@@ -58,6 +60,7 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
+          projectPath: ByteScrapGame/
           targetPlatform: ${{ inputs.platform }} #StandaloneWindows64
 
       # Output
