@@ -20,7 +20,8 @@ on:
     paths:
       - 'ByteScrapGame/**'
 
-    
+env:
+  PROJECT_PATH: ByteScrapGame/
 
 
 jobs:
@@ -38,7 +39,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: Library
-          key: Library-${{ hashFiles('ByteScrapGame/Assets/**', 'ByteScrapGame/Packages/**', 'ByteScrapGame/ProjectSettings/**') }}
+          key: Library-${{ hashFiles(format('{0}/Assets/**', env.PROJECT_PATH), format('{0}/Packages/**', env.PROJECT_PATH), format('{0}/ProjectSettings/**', env.PROJECT_PATH)) }}
           restore-keys: |
             Library-
 
@@ -60,7 +61,7 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          projectPath: ByteScrapGame/
+          projectPath: ${{ env.PROJECT_PATH }}
           targetPlatform: ${{ inputs.platform }} #StandaloneWindows64
 
       # Output
