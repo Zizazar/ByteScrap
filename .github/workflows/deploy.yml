@@ -61,10 +61,9 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          envs: CR_PAT=${{ secrets.PAT }}, SERVER_PATH=${{ secrets.SERVER_PATH }}.
           script: |
-            mkdir -p $SERVER_PATH
-            cd $SERVER_PATH
-            echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
+            mkdir -p ${{ secrets.SERVER_PATH }}
+            cd ${{ secrets.SERVER_PATH }}
+            echo ${{ secrets.PAT }} | docker login ghcr.io -u USERNAME --password-stdin
             docker-compose pull
             docker-compose up -d --remove-orphans
