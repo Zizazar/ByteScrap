@@ -54,6 +54,10 @@ jobs:
           projectPath: ${{ env.PROJECT_PATH }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Cat Info
+        run: |
+          cat ${{format('{0}/Packages/manifest.json', env.PROJECT_PATH)}}
+
       # Build
       - name: Build project
         uses: game-ci/unity-builder@v4
