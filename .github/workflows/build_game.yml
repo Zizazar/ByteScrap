@@ -54,9 +54,8 @@ jobs:
           projectPath: ${{ env.PROJECT_PATH }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Cat Info
-        run: |
-          cat ${{format('{0}/Packages/manifest.json', env.PROJECT_PATH)}}
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
 
       # Build
       - name: Build project
