@@ -71,3 +71,9 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /ByteScrapGame/[Aa]ssets/[Ss]treamingAssets/aa.meta
 /ByteScrapGame/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Ignore temporaries from GameCI
+/[Aa]rtifacts/
+/[Cc]odeCoverage/
+/ByteScrapGame/[Aa]rtifacts/
+/ByteScrapGame/[Cc]odeCoverage/
