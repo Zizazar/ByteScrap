@@ -52,7 +52,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           projectPath: ${{ env.PROJECT_PATH }}
-          githubToken: ${{ secrets.GH_TOKEN }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
 
       # Build
       - name: Build project
