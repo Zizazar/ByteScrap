@@ -18,6 +18,7 @@ namespace _Project.Scripts.UI
         [SerializeField] private  Button creativeButton;
         [SerializeField] private  Button loginButton;
         [SerializeField] private  Button registerButton;
+        [SerializeField] private  Button settingsButton;
         
         [SerializeField] private TMP_Text usernameText;
 
@@ -42,6 +43,12 @@ namespace _Project.Scripts.UI
             loginButton.onClick.AddListener(OpenLoginMenu);
             registerButton.onClick.AddListener(OpenRegMenu);
             creativeButton.onClick.AddListener(OpenCreative);
+            settingsButton.onClick.AddListener(OpenSettings);
+        }
+
+        private void OpenSettings()
+        {
+            Bootstrap.Instance.ui.settings.Open();
         }
 
         private void OpenCreative()

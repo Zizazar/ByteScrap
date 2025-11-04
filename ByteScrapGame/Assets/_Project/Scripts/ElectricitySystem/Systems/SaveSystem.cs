@@ -42,6 +42,17 @@ namespace _Project.Scripts.ElectricitySystem
             return Path.Combine(saveDirectory, $"{id}.json");
         }
 
+        public static void DeleteLocalSaves()
+        {
+            string[] files = Directory.GetFiles(Path.Combine(Application.persistentDataPath, "Saves"));
+            
+            foreach (string file in files)
+            {
+                File.Delete(file);
+                Debug.Log($"Удален файл: {file}");
+            }
+        }
+
         [SerializeField] private BuildingSystem buildingSystem;
 
         public void LoadFromJson(string json)

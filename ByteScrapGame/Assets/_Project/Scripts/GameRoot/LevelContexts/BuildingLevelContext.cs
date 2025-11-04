@@ -65,6 +65,10 @@ namespace _Project.Scripts.GameRoot.LevelContexts
             Bootstrap.Instance.ui.inGameOverlay.goalListController.Init(); 
             
             buildingSystem.enabled = true;
+            if (id == "lvl1")
+            {
+                Bootstrap.Instance.ui.inputGuide.Open();
+            }
         }
         
 

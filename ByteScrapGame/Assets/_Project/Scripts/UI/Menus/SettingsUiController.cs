@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using _Project.Scripts.ElectricitySystem;
 using _Project.Scripts.GameRoot;
 using TMPro;
 using UnityEngine;
@@ -12,6 +14,7 @@ namespace _Project.Scripts.UI
         public int width;
         public int height;
         public bool levelAutoExit;
+        public bool cloudSaves;
 
         public void ToPlayerPrefs()
         {
@@ -19,6 +22,7 @@ namespace _Project.Scripts.UI
             PlayerPrefs.SetInt("ResolutionWidth", width);
             PlayerPrefs.SetInt("ResolutionHeight", height);
             PlayerPrefs.SetInt("LevelAutoExit", levelAutoExit ? 1 : 0);
+            PlayerPrefs.SetInt("CloudSaves", cloudSaves ? 1 : 0);
         }
 
         public void FromPlayerPrefs()
@@ -27,6 +31,7 @@ namespace _Project.Scripts.UI
             width = PlayerPrefs.GetInt("ResolutionWidth", Screen.currentResolution.width);
             height = PlayerPrefs.GetInt("ResolutionHeight", Screen.currentResolution.height);
             levelAutoExit = PlayerPrefs.GetInt("LevelAutoExit", 0) == 1;    
+            cloudSaves = PlayerPrefs.GetInt("CloudSaves", 0) == 1;
         }
 
         public void Apply()
@@ -41,6 +46,8 @@ namespace _Project.Scripts.UI
         [SerializeField] private Toggle fullscreenToggle;
         [SerializeField] private Toggle autoExitToggle;
 
+        [SerializeField] private Button clearSavesButton;
+        
         private Resolution _selectedResolution;
         
         public override void Init()
@@ -58,6 +65,14 @@ namespace _Project.Scripts.UI
             
             fullscreenToggle.isOn = settings.fullScreenMode == FullScreenMode.FullScreenWindow;
             autoExitToggle.isOn = settings.levelAutoExit;
+            clearSavesButton.onClick.AddListener(ClearSaves);
+        }
+
+        private void ClearSaves()
+        {
+            SaveSystem.DeleteLocalSaves();
+            
+            
         }
 
         private void OnDestroy()

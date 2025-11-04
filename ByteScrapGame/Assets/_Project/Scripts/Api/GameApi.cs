@@ -177,5 +177,27 @@ namespace _Project.Scripts.ElectricitySystem.Systems
                 onError)
             );
         }
+
+
+        public Coroutine GetWorkshopItems(UnityAction<long, string> onSuccess = null,
+            UnityAction<long, string> onError = null)
+        {
+            return Bootstrap.Instance.StartCoroutine(
+                AuthorizedGet("workshop/all", onSuccess, onError));
+        }
+
+        public Coroutine DownloadWorkshopItem(string id, UnityAction<long, string> onSuccess = null,
+            UnityAction<long, string> onError = null)
+        {
+            return Bootstrap.Instance.StartCoroutine(
+                AuthorizedGet($"workshop/{id}/download", onSuccess, onError));
+        }
+
+        public Coroutine SearchWorkshop(string term, int limit, int of, UnityAction<long, string> onSuccess = null,
+            UnityAction<long, string> onError = null)
+        {
+            return Bootstrap.Instance.StartCoroutine(
+                AuthorizedGet($"workshop/fts?term={term}&lim={limit}&of={of}", onSuccess, onError));
+        }
     }
 }

@@ -64,7 +64,8 @@ namespace _Project.Scripts.UI
                 levelButtonData.levelName = levelData.name;
                 levelButtonData.description = levelData.description;
                 
-                if (cloudSaves.Exists(response => response.name == levelData.ID)) // TODO: Проверка на облачные сохранения
+                if (cloudSaves.Exists(response => response.name == levelData.ID) 
+                    && Bootstrap.Instance.gameSettings.cloudSaves)
                 {
                     levelButtonData.saveType = SaveTypes.CLOUD;
                 } else if (SaveSystem.SaveFileExist(levelData.ID))
