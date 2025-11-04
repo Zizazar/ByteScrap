@@ -31,7 +31,7 @@ namespace _Project.Scripts.Commands
             DebugLogConsole.AddCommand<string, string>("reg", "Login test", RegisterTest);
             DebugLogConsole.AddCommand("token", "Get token of current user", GetToken);
             DebugLogConsole.AddCommand("getcurrentuser", "Get meta of current user", GetCurrentUser);
-            DebugLogConsole.AddCommand<string[]>("apiurl", "Set / get api url", ApiUrl);
+            DebugLogConsole.AddCommand<string, string>("apiurl", "Set / get api url", ApiUrl, "get/set", "url");
             DebugLogConsole.AddCommand("logout", "Logout", Logout);
             
         }
@@ -39,19 +39,21 @@ namespace _Project.Scripts.Commands
         private void Logout()
         {
             Bootstrap.Instance.api.Logout();
+            Bootstrap.Instance.ui.menu.UpdateUserInfo();
         }
 
-        private void ApiUrl(string[] args)
+        private void ApiUrl(string cmd, string value = null)
         {
-            switch (args[0].ToLower())
+            switch (cmd.ToLower())
             {
                 case "get":
                     Debug.Log(
                     Bootstrap.Instance.api.GetUrl());
                     break;
                 case "set":
-                    Bootstrap.Instance.api.SetUrl(args[1]);
-                    Debug.Log($"Url set to {args[1]}");
+                    if (value == null) return;
+                    Bootstrap.Instance.api.SetUrl(value);
+                    Debug.Log($"Url set to {value}");
                     break;
                     
             }

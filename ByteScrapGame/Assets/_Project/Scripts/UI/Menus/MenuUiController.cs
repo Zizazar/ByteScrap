@@ -15,6 +15,7 @@ namespace _Project.Scripts.UI
         
         [SerializeField] private  Button selectLevelButton;
         [SerializeField] private  Button exitButton;
+        [SerializeField] private  Button creativeButton;
         [SerializeField] private  Button loginButton;
         [SerializeField] private  Button registerButton;
         
@@ -40,6 +41,12 @@ namespace _Project.Scripts.UI
             exitButton.onClick.AddListener(Application.Quit);
             loginButton.onClick.AddListener(OpenLoginMenu);
             registerButton.onClick.AddListener(OpenRegMenu);
+            creativeButton.onClick.AddListener(OpenCreative);
+        }
+
+        private void OpenCreative()
+        {
+            Bootstrap.Instance.sm_Game.ChangeState(new LoadingLevelState("creative", SaveTypes.NONE));
         }
 
         public override void Open()

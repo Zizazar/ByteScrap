@@ -15,6 +15,7 @@ namespace _Project.Scripts.UI
         public AuthUiController auth;
         public PopupUiController popup;
         public HintSystem hint;
+        public ExitMenuUIController exitMenu;
         
         
         public void Init()
@@ -27,6 +28,7 @@ namespace _Project.Scripts.UI
             settings.Init();
             auth.Init();
             popup.Init();
+            exitMenu.Init();
         }
     }
 }

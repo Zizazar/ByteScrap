@@ -29,7 +29,7 @@ namespace _Project.Scripts.ElectricitySystem.Systems
     
     public class GameApi
     {
-        private const string BASE_URL = "http://localhost:8000/";
+        private const string BASE_URL = "https://bysc.zizazr.art/";//"http://localhost:8000/";
         
         #region Utils
         

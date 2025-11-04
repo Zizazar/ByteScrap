@@ -1,6 +1,10 @@
-﻿using _Project.Scripts.GameRoot;
+﻿using System;
+using _Project.Scripts.GameRoot;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Windows;
+using Input = UnityEngine.Input;
 
 namespace _Project.Scripts.UI.Screens
 {
@@ -27,6 +31,9 @@ namespace _Project.Scripts.UI.Screens
                 loginButton.onClick.AddListener(SubmitLogin);
             }
             
+            usernameField.text = "";
+            passwordField.text = "";
+            
             Open();
         }
 
@@ -48,6 +55,14 @@ namespace _Project.Scripts.UI.Screens
         private void SubmitRegister()
         {
             Bootstrap.Instance.api.Register(usernameField.text, passwordField.text, OnSuccess, OnError);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Close();
+            }
         }
     }
 }

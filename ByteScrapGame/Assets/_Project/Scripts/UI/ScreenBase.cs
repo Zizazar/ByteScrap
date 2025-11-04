@@ -24,6 +24,8 @@ namespace _Project.Scripts.UI
         public virtual void Close() => _root.SetActive(false);
         public bool isOpened => _root.activeSelf;
         
+        public void Toggle() => _root.SetActive(!_root.activeSelf);
+        
         public Tweener FadeIn()
         {
             _canvas.alpha = 0;

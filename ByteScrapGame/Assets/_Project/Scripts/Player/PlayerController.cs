@@ -32,6 +32,18 @@ namespace _Project.Scripts.Player
             statemachine.ChangeState(new BuildingPState());
             Bootstrap.Instance.input.Player.Enable();
             Bootstrap.Instance.input.Player.BuildMode.performed += BuildSwitchAction;
+            Bootstrap.Instance.input.Player.ExitMenu.performed += ExitMenuAction;
+        }
+
+        private void OnDestroy()
+        {
+            Bootstrap.Instance.input.Player.BuildMode.performed -= BuildSwitchAction;
+            Bootstrap.Instance.input.Player.ExitMenu.performed -= ExitMenuAction;
+        }
+
+        private void ExitMenuAction(InputAction.CallbackContext obj)
+        {
+            Bootstrap.Instance.ui.exitMenu.Toggle();
         }
 
 
