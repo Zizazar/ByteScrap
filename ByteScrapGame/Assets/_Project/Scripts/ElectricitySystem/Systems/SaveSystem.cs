@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using _Project.Scripts.GameRoot;
 using _Project.Scripts.LevelAndGoals;
 using Newtonsoft.Json;
@@ -65,6 +66,18 @@ namespace _Project.Scripts.ElectricitySystem
             Debug.Log($"Схема загружена: \n {json}");
         }
 
+        public List<GridCellData> SaveGrid()
+        {
+            var saveData = buildingSystem.circuitManager.components.Select(
+                item => 
+                    new GridCellData()
+                    {
+                        x = item.Key.x, y = item.Key.y, component = item.Value.ToComponentData() 
+                        
+                    }).ToList();
+            return saveData;
+        }
+
         public string SaveToJson()
         {
             SaveData saveData = new SaveData();
@@ -84,7 +97,7 @@ namespace _Project.Scripts.ElectricitySystem
                 new JsonSerializerSettings
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                    Formatting = Formatting.None
+                    Formatting = Formatting.Indented
                 });
         
             Debug.Log($"Схема сохранена: \n {json}");

@@ -205,6 +205,7 @@ namespace _Project.Scripts.ElectricitySystem.Systems
             UnityAction<long, string> onError = null)
         {
             var json = JsonConvert.SerializeObject(upload);
+            Debug.Log(json);
             return Bootstrap.Instance.StartCoroutine(
                 AuthorizedPost($"workshop/upload", json, onSuccess, onError));
         }

@@ -41,6 +41,7 @@ namespace _Project.Scripts.ElectricitySystem.Systems.Responses
             this.name = name;
             this.description = description;
             this.data = data;
+            this.image = " ";
         }
     }
 }

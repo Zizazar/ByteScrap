@@ -25,9 +25,10 @@ namespace _Project.Scripts.UI.Screens
         private void OnSubmitClicked()
         {
             var context = FindAnyObjectByType<BuildingLevelContext>();
-            var saveJson = context.saveSystem.SaveToJson();
-            var data = new WorkUpload(nameField.text, descriptionField.text, saveJson);
-            Bootstrap.Instance.api.UploadWork(data, (code, msg) =>
+            var data = context.saveSystem.SaveGrid();
+            var json = JsonConvert.SerializeObject(data, Formatting.Indented);
+            var work = new WorkUpload(nameField.text, descriptionField.text, json);
+            Bootstrap.Instance.api.UploadWork(work, (code, msg) =>
             {
                 Close();
             });
