@@ -57,6 +57,7 @@ namespace _Project.Scripts.UI
             {
                 
                 var levelData = JsonConvert.DeserializeObject<LevelData>(jsonAsset.text);
+                if (levelData.ID == "creative") continue;
                 Debug.Log($"Added level {levelData.ID}");
 
                 LevelButtonData levelButtonData = new LevelButtonData();

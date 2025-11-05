@@ -31,7 +31,7 @@ namespace _Project.Scripts.UI
             width = PlayerPrefs.GetInt("ResolutionWidth", Screen.currentResolution.width);
             height = PlayerPrefs.GetInt("ResolutionHeight", Screen.currentResolution.height);
             levelAutoExit = PlayerPrefs.GetInt("LevelAutoExit", 0) == 1;    
-            cloudSaves = PlayerPrefs.GetInt("CloudSaves", 0) == 1;
+            cloudSaves = PlayerPrefs.GetInt("CloudSaves", 1) == 1;
         }
 
         public void Apply()
