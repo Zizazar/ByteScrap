@@ -68,6 +68,9 @@ namespace _Project.Scripts.GameRoot.LevelContexts
             if (id == "lvl1")
             {
                 Bootstrap.Instance.ui.inputGuide.Open();
+            } else if (id == "creative")
+            {
+                Bootstrap.Instance.ui.inGameOverlay.ShowCreativeWidgets();
             }
         }
         

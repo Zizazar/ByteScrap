@@ -28,4 +28,19 @@ namespace _Project.Scripts.ElectricitySystem.Systems.Responses
         public string name;
         public string data;
     }
+
+    public class WorkUpload : BaseRequest
+    {
+        public string name;
+        public string description;
+        public string image;
+        public string data;
+
+        public WorkUpload(string name, string description, string data)
+        {
+            this.name = name;
+            this.description = description;
+            this.data = data;
+        }
+    }
 }

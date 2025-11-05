@@ -10,6 +10,7 @@ namespace _Project.Scripts.UI
 {
     public class InGameOverlayController : ScreenBase
     {
+        [SerializeField] public Button workshopButton;
         
         [SerializeField] public GoalListController goalListController;
         
@@ -24,6 +25,12 @@ namespace _Project.Scripts.UI
         {
             base.Init();
             goalListController.Init();
+            workshopButton.onClick.AddListener(OpenWorkshop);
+        }
+
+        private void OpenWorkshop()
+        {
+            Bootstrap.Instance.ui.workshop.Open();
         }
 
         private void Update()
@@ -49,6 +56,17 @@ namespace _Project.Scripts.UI
             statusText.color = colors[i];
         }
 
-        
+        public void ShowCreativeWidgets()
+        {
+            goalListController.gameObject.SetActive(false);
+            workshopButton.gameObject.SetActive(true);
+        }
+
+        public override void Close()
+        {
+            base.Close();
+            goalListController.gameObject.SetActive(true);
+            workshopButton.gameObject.SetActive(false);
+        }
     }
 }

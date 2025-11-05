@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using _Project.Scripts.ElectricitySystem.Systems.Responses;
 using _Project.Scripts.GameRoot;
 using Newtonsoft.Json;
@@ -198,6 +199,14 @@ namespace _Project.Scripts.ElectricitySystem.Systems
         {
             return Bootstrap.Instance.StartCoroutine(
                 AuthorizedGet($"workshop/fts?term={term}&lim={limit}&of={of}", onSuccess, onError));
+        }
+
+        public Coroutine UploadWork(WorkUpload upload, UnityAction<long, string> onSuccess = null,
+            UnityAction<long, string> onError = null)
+        {
+            var json = JsonConvert.SerializeObject(upload);
+            return Bootstrap.Instance.StartCoroutine(
+                AuthorizedPost($"workshop/upload", json, onSuccess, onError));
         }
     }
 }

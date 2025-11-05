@@ -81,6 +81,21 @@ public class BuildingSystem : MonoBehaviour
         circuitManager.RequestCircuitUpdate();
     }
 
+    public void ClearGrid()
+    {
+        circuitManager.ClearAllComponents();
+        
+        // Найти и уничтожить игровой объект
+        foreach (Transform child in transform)
+        {
+            var comp = child.GetComponent<CircuitComponent>();
+            if (!comp) continue;
+            Destroy(child.gameObject);
+            break;
+        }
+        circuitManager.RequestCircuitUpdate();
+    }
+
     public void RemoveHologram(bool withComponent = false)
     {
         if (!componentToPlace) return;
