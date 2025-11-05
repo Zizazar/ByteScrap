@@ -17,6 +17,8 @@ namespace _Project.Scripts.UI
         public HintSystem hint;
         public ExitMenuUIController exitMenu;
         public InputGuideUiController inputGuide;
+        public WorkshopUiController workshop;
+        public UploadUiController upload;
         
         
         public void Init()
@@ -31,6 +33,8 @@ namespace _Project.Scripts.UI
             popup.Init();
             exitMenu.Init();
             inputGuide.Init();
+            workshop.Init();
+            upload.Init();
         }
     }
 }
