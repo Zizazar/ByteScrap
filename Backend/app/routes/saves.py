@@ -64,10 +64,10 @@ def update_save_by_id(save_id: str, payload: CreateSave,
     if save:
         if save.owner_id != current_user.id:
             raise HTTPException(status_code=403, detail="You are not the owner of this save")
-        save.name = payload.name
-        save.data = payload.data
     else:
         save = Saves(**payload.model_dump(), owner_id=current_user.id)
+    save.name = payload.name
+    save.data = payload.data
     db.add(save)
     db.commit()
     db.refresh(save)
